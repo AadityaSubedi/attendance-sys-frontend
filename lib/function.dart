@@ -1,22 +1,48 @@
 import 'dart:convert';
 
-
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
-
-fetchData(String url, String? className, String? subName) async {
+fetchData(
+    String url, String? className, String? subName, String? method) async {
   try {
     print('###################');
-final body = jsonEncode({
+    final body = {
       'classname': className,
       'subjectname': subName,
-    });
-final uri = Uri.http('192.168.1.71:5000/api', url);
-//final uri = Uri.http('192.168.1.71:5000/api', url);
- final header = <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
     };
-final response = await http.post(uri, headers: header, body: body);
+    if (method == 'POST') {
+      Uri uri = Uri.parse(url);
+      final header = <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      };
+      final response =
+          await http.post(uri, headers: header, body: jsonEncode(body));
+      print(response.body);
+      return response.body;
+    } else if (method == 'GET') {
+      print('Boom Boom');
+      Uri uri = Uri.parse(url);
+      final request = Request('GET', uri);
+      request.body = '{"id":1}';
+
+      final response = request.send();
+      // final newURI = uri.replace(queryParameters: body);
+      // final header = <String, String>{
+      //   'Content-Type': 'application/json; charset=UTF-8',
+      // };
+      // print('*****************');
+      // final response = await http.get(newURI, headers: header);
+      print(response);
+      return response;
+    }
+
+    // Uri uri = Uri.parse(url);
+    // final newURI = uri.replace(queryParameters: body);
+    // final header = <String, String>{
+    //   'Content-Type': 'application/json; charset=UTF-8',
+    // };
+    // final response = await http.post(newURI, headers: header, body: body);
 
     // var data = jsonEncode({
     //   'classname': className,
@@ -26,8 +52,6 @@ final response = await http.post(uri, headers: header, body: body);
     //   'Content-Type': 'application/json; charset=UTF-8',
     // },);
 
-    print(response.body);
-    return response.body;
   } catch (error) {
     return error;
   }

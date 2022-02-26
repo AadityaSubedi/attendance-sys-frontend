@@ -303,17 +303,14 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: InkWell(
-                              onTap: () async {
-                                print("Tring tring");
-
+                              onTap: () async {                            
                                 const url =
-                                    '/takeattendance';
-
+                                    'http://192.168.1.71:5000/api/takeattendance';
                                 var data;
                                 data = await fetchData(
-                                    url, classsChoose, subChoose);
-                                print(data);
+                                    url, classsChoose, subChoose, 'POST');
                               },
+
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -353,7 +350,15 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: InkWell(
-                              onTap: () async {
+                              onTap: 
+                              
+                              () async {
+                                const url =
+                                    'http://192.168.1.71:5000/api/getattendancelist';
+                                var data;
+                                data = await fetchData(
+                                    url, classsChoose, subChoose, 'GET');
+                                
                                 await Navigator.push(
                                   context,
                                   MaterialPageRoute(
