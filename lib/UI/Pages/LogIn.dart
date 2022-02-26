@@ -65,9 +65,11 @@ class _LogInWidgetState extends State<LogInWidget> {
                   borderRadius: BorderRadius.circular(0),
                   child: Image.asset(
                     'assets/images/2123.png',
+                    
                     width: MediaQuery.of(context).size.width * 0.25,
                     height: MediaQuery.of(context).size.height * 0.4,
                     fit: BoxFit.contain,
+                    
                   ),
                 ),
               ),
