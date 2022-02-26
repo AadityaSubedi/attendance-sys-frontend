@@ -1,7 +1,7 @@
 
-import 'package:attendancesys_flutter/UI/Pages/Dashboard.dart';
-import 'package:attendancesys_flutter/UI/Pages/Register.dart';
-import 'package:attendancesys_flutter/main.dart';
+import 'package:attendance_sys/UI/Pages/Dashboard.dart';
+import 'package:attendance_sys/UI/Pages/Register.dart';
+import 'package:attendance_sys/main.dart';
 
 import 'package:hexcolor/hexcolor.dart';
 import 'package:page_transition/page_transition.dart';
@@ -65,9 +65,11 @@ class _LogInWidgetState extends State<LogInWidget> {
                   borderRadius: BorderRadius.circular(0),
                   child: Image.asset(
                     'assets/images/2123.png',
+                    
                     width: MediaQuery.of(context).size.width * 0.25,
                     height: MediaQuery.of(context).size.height * 0.4,
                     fit: BoxFit.contain,
+                    
                   ),
                 ),
               ),

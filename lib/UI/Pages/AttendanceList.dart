@@ -1,10 +1,10 @@
 
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:attendancesys_flutter/UI/Pages/Attendance.dart';
-import 'package:attendancesys_flutter/UI/Pages/Dashboard.dart';
-import 'package:attendancesys_flutter/UI/Pages/LogIn.dart';
-import 'package:attendancesys_flutter/main.dart';
+import 'package:attendance_sys/UI/Pages/Attendance.dart';
+import 'package:attendance_sys/UI/Pages/Dashboard.dart';
+import 'package:attendance_sys/UI/Pages/LogIn.dart';
+import 'package:attendance_sys/main.dart';
 import 'package:flutter/material.dart';
 
 class AttendanceListWidget extends StatefulWidget {
@@ -29,7 +29,7 @@ class _AttendanceListWidgetState extends State<AttendanceListWidget> {
           automaticallyImplyLeading: true,
           flexibleSpace: Column(
             mainAxisSize: MainAxisSize.max,
-            children: [
+            children: [ 
               Align(
                 alignment: AlignmentDirectional(-0.5, 0),
                 child: Padding(

@@ -1,4 +1,4 @@
-name: attendancesys_flutter
+name: attendance_sys
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -69,8 +69,8 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/videos/
-    - assets/audios/
+    # - assets/videos/
+    # - assets/audios/
     # - assets/lottie_animations/
     # - assets/rive_animations/
     # - assets/pdfs/

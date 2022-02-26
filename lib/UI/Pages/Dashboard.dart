@@ -7,10 +7,10 @@
 //import 'package:attendancesys_flutter/Screens/LogIn.dart';
 import 'dart:convert';
 
-import 'package:attendancesys_flutter/UI/Pages/AttendanceList.dart';
-import 'package:attendancesys_flutter/UI/Pages/LogIn.dart';
-import 'package:attendancesys_flutter/UI/Pages/StudentInfo.dart';
-import 'package:attendancesys_flutter/function.dart';
+import 'package:attendance_sys/UI/Pages/AttendanceList.dart';
+import 'package:attendance_sys/UI/Pages/LogIn.dart';
+import 'package:attendance_sys/UI/Pages/StudentInfo.dart';
+import 'package:attendance_sys/function.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -303,14 +303,19 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: InkWell(
-                              onTap: () async {                            
+                              onTap: () async {
                                 const url =
-                                    'http://192.168.1.71:5000/api/takeattendance';
-                                var data;
-                                data = await fetchData(
-                                    url, classsChoose, subChoose, 'POST');
-                              },
+                                    // use localhost:
+                                    'http://127.0.0.1:5000/api/takeattendance';
 
+                                var body = {
+                                  "classname": classsChoose,
+                                  "subjectname": subChoose,
+                                  "time":1
+                                };
+                                var data = await fetchData(
+                                    url, body, 'POST');
+                              },
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -350,15 +355,15 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: InkWell(
-                              onTap: 
-                              
-                              () async {
+                              onTap: () async {
                                 const url =
-                                    'http://192.168.1.71:5000/api/getattendancelist';
-                                var data;
-                                data = await fetchData(
-                                    url, classsChoose, subChoose, 'GET');
-                                
+                                    'http://192.168.1.41:5000/api/getattendancelist';
+                                var body = {
+                                  "classname": classsChoose,
+                                  "subjectname": subChoose
+                                };
+                                var data = await fetchData(url, body, 'GET');
+
                                 await Navigator.push(
                                   context,
                                   MaterialPageRoute(

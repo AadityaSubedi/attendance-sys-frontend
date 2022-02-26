@@ -2,9 +2,9 @@
 // import 'package:attendancesys_flutter/UI/Pages/Dashboard.dart';
 // ignore_for_file: prefer_const_constructors, unnecessary_const, prefer_const_literals_to_create_immutables
 
-import 'package:attendancesys_flutter/UI/Pages/Dashboard.dart';
-import 'package:attendancesys_flutter/UI/Pages/LogIn.dart';
-import 'package:attendancesys_flutter/main.dart';
+import 'package:attendance_sys/UI/Pages/Dashboard.dart';
+import 'package:attendance_sys/UI/Pages/LogIn.dart';
+import 'package:attendance_sys/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
