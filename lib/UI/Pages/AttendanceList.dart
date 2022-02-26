@@ -29,7 +29,7 @@ class _AttendanceListWidgetState extends State<AttendanceListWidget> {
           automaticallyImplyLeading: true,
           flexibleSpace: Column(
             mainAxisSize: MainAxisSize.max,
-            children: [
+            children: [ 
               Align(
                 alignment: AlignmentDirectional(-0.5, 0),
                 child: Padding(
