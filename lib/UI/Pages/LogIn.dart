@@ -1,7 +1,7 @@
 
-import 'package:attendance_sys/UI/Pages/Dashboard.dart';
-import 'package:attendance_sys/UI/Pages/Register.dart';
-import 'package:attendance_sys/main.dart';
+import 'package:attendancesys_flutter/UI/Pages/Dashboard.dart';
+import 'package:attendancesys_flutter/UI/Pages/Register.dart';
+import 'package:attendancesys_flutter/main.dart';
 
 import 'package:hexcolor/hexcolor.dart';
 import 'package:page_transition/page_transition.dart';

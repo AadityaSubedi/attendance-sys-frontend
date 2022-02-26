@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
-import 'package:attendance_sys/UI/Pages/Dashboard.dart';
-import 'package:attendance_sys/UI/Pages/LogIn.dart';
-import 'package:attendance_sys/main.dart';
+import 'package:attendancesys_flutter/UI/Pages/Dashboard.dart';
+import 'package:attendancesys_flutter/UI/Pages/LogIn.dart';
+import 'package:attendancesys_flutter/main.dart';
 import 'package:flutter/material.dart';
 
 class Students {

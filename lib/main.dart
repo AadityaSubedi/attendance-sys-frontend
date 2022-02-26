@@ -1,5 +1,5 @@
 
-import 'package:attendance_sys/UI/Pages/LogIn.dart';
+import 'package:attendancesys_flutter/UI/Pages/LogIn.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 

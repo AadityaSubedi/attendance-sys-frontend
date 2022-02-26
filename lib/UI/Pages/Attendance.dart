@@ -2,9 +2,9 @@
 
 // ignore_for_file: prefer_const_constructors
 
-import 'package:attendance_sys/UI/Pages/Dashboard.dart';
-import 'package:attendance_sys/UI/Pages/LogIn.dart';
-import 'package:attendance_sys/main.dart';
+import 'package:attendancesys_flutter/UI/Pages/Dashboard.dart';
+import 'package:attendancesys_flutter/UI/Pages/LogIn.dart';
+import 'package:attendancesys_flutter/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
