@@ -38,6 +38,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
   List<String> classes = ['075BCTAB', '075BCTCD', '075BCEAB', '075BCECD'];
   String? subChoose;
   String? classsChoose;
+  String? attendanceTime;
   // late final url = '';
 
   List<DropdownMenuItem<String>> getList(lists) {
@@ -303,18 +304,58 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: InkWell(
-                              onTap: () async {
-                                const url =
-                                    // use localhost:
-                                    'http://127.0.0.1:5000/api/takeattendance';
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        scrollable: true,
+                                        content: Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: Form(
+                                            child: Column(
+                                              children: <Widget>[
+                                                TextFormField(
+                                                  decoration: InputDecoration(
+                                                    labelText: 'Attendance Time',
+                                                    icon: Icon(Icons.watch),
+                                                  ),
+                                                  onChanged: (String? newValue) {
+                                                    setState(() {
+                                                      attendanceTime = newValue!;
+                                                    });
+                                                  },
+                                                ),
+                                                TextFormField(
+                                                  decoration: InputDecoration(
+                                                    labelText: 'Camera Source',
+                                                    icon: Icon(Icons.source),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        actions: [
+                                          RaisedButton(
+                                              child: Text("Start"),
+                                              onPressed: () async {
+                                                    const url =
+                                                        // use localhost:
+                                                        'http://192.168.1.66:5000/api/takeattendance';
 
-                                var body = {
-                                  "classname": classsChoose,
-                                  "subjectname": subChoose,
-                                  "time":1
-                                };
-                                var data = await fetchData(
-                                    url, body, 'POST');
+                                                    var body = {
+                                                      "classname": classsChoose,
+                                                      "subjectname": subChoose,
+                                                      "time": attendanceTime
+                                                    };
+                                                    var data = await fetchData(
+                                                      url, body, 'POST');
+                                                      Navigator.of(context).pop();
+                                                  },)
+                                        ],
+                                      );
+                                    });
                               },
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
@@ -357,7 +398,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                             child: InkWell(
                               onTap: () async {
                                 const url =
-                                    'http://192.168.1.41:5000/api/getattendancelist';
+                                    'http://192.168.1.66:5000/api/getattendancelist';
                                 var body = {
                                   "classname": classsChoose,
                                   "subjectname": subChoose
@@ -368,7 +409,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const AttendanceListWidget(),
+                                        AttendanceListWidget(datedata: data, classname: classsChoose, subjectname: subChoose),
                                     // AttendanceListWidget(),
                                   ),
                                 );

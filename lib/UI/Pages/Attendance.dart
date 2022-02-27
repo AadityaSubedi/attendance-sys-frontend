@@ -9,8 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AttendanceWidget extends StatefulWidget {
-  const AttendanceWidget({Key? key}) : super(key: key);
+  const AttendanceWidget({Key? key, required this.classname, required this.subjectname, required this.date, required this.attendance}) : super(key: key);
 
+  final String? classname;
+  final String? subjectname;
+  final String? date;
+  final attendance;
   @override
   _AttendanceWidgetState createState() => _AttendanceWidgetState();
 }
@@ -174,7 +178,7 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
                         child: Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
                           child: Text(
-                            'Class Name\nSubject Name\nDate',
+                            'Class Name:    ${widget.classname}\nSubject Name: ${widget.subjectname}\nDate: ${widget.date}',
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontFamily: 'Poppins',
@@ -209,7 +213,7 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
                   onChanged: (newValue) =>
                       setState(() => checkboxListTileValue2 = newValue!),
                   title: Text(
-                    'Title',
+                    '${widget.attendance}',
                     style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 18,
