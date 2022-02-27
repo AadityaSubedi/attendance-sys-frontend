@@ -5,23 +5,17 @@ import 'package:attendance_sys/UI/Pages/LogIn.dart';
 import 'package:attendance_sys/main.dart';
 import 'package:flutter/material.dart';
 
-class Students {
-  final String roll_no;
-  final int present_days;
-
-  const Students({
-    required this.roll_no,
-    required this.present_days,
-  });
-}
-
-final columns = ['Roll no', 'Present Days'];
-final allStudents = <Students>[
-  Students(roll_no: '075BCT001', present_days: 4),
-];
-
 class StudentInfoWidget extends StatefulWidget {
-  const StudentInfoWidget({Key? key}) : super(key: key);
+  const StudentInfoWidget(
+      {Key? key,
+      required this.classname,
+      required this.subjectname,
+      required this.attendance})
+      : super(key: key);
+
+  final String? classname;
+  final String? subjectname;
+  final attendance;
 
   @override
   _StudentInfoWidgetState createState() => _StudentInfoWidgetState();
@@ -31,9 +25,17 @@ class _StudentInfoWidgetState extends State<StudentInfoWidget> {
   late bool checkboxListTileValue1 = false;
   late bool checkboxListTileValue2 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  int _currentSortColumn = 0;
+  bool _isSortAsc = true;
+
+  List<Map> allStudents = [];
 
   @override
   Widget build(BuildContext context) {
+    print(widget.attendance);
+    widget.attendance['working_days']
+        .forEach((k, v) => allStudents.add({'Roll no': k, 'Present Days': v}));
+
     return Scaffold(
       key: scaffoldKey,
       appBar: PreferredSize(
@@ -72,7 +74,6 @@ class _StudentInfoWidgetState extends State<StudentInfoWidget> {
               Align(
                 alignment: AlignmentDirectional(0.85, 0),
                 child: InkWell(
-                  
                   onTap: () async {
                     await showDialog(
                       context: context,
@@ -224,48 +225,44 @@ class _StudentInfoWidgetState extends State<StudentInfoWidget> {
                     ],
                   ),
                 ),
-                Table(
-                  border: TableBorder.all(),
-                  columnWidths: {
-                    0: FractionColumnWidth(0.7),
-                    1: FractionColumnWidth(0.3),
-                  },
-                  children: [buildRow(columns)],
-                ),
-                CheckboxListTile(
-                  value: checkboxListTileValue1,
-                  onChanged: (newValue) =>
-                      setState(() => checkboxListTileValue1 = newValue!),
-                  title: Text(
-                    'Title',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 20,
-                      color: colrorPrimary,
+                
+                DataTable(
+                  sortColumnIndex:0,
+                  sortAscending:true,
+                  columns: [
+                    DataColumn(
+
+                      label: Text('Roll no'),
+                      // onSort: (columnIndex, _) {
+                      //   setState(() {
+                      //     _currentSortColumn = columnIndex;
+                      //     if (_isSortAsc) {
+                      //       allStudents.sort((a, b) =>
+                      //           b['Roll no'].compareTo(a['Roll no']));
+                      //     } else {
+                      //       allStudents.sort((a, b) =>
+                      //           a['Roll no'].compareTo(b['Roll no']));
+                      //     }
+                      //     _isSortAsc = !_isSortAsc;
+                      //   });
+                      // },
                     ),
-                  ),
-                  tileColor: Color(0xFFF5F5F5),
-                  dense: false,
-                  controlAffinity: ListTileControlAffinity.trailing,
+                    DataColumn(label: Text('Present Days'))
+                  ],
+                  rows: allStudents
+                      .map((student) => DataRow(cells: [
+                            DataCell(Text(student['Roll no'])),
+                            DataCell(
+                                Text(student['Present Days'].toString()))
+                          ]))
+                      .toList(),
+                  // sortColumnIndex: _currentSortColumn,
+                  // sortAscending: _isSortAsc,
                 ),
-                CheckboxListTile(
-                  value: checkboxListTileValue2,
-                  onChanged: (newValue) =>
-                      setState(() => checkboxListTileValue2 = newValue!),
-                  title: Text(
-                    'Title',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 20,
-                      color: colrorPrimary,
-                    ),
-                  ),
-                  tileColor: Color(0xFFF5F5F5),
-                  dense: false,
-                  controlAffinity: ListTileControlAffinity.trailing,
-                ),
+                
+              
               ],
-            ),
+              ),
           ),
         ),
       ),
