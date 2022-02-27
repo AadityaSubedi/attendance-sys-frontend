@@ -5,23 +5,19 @@ import 'package:attendance_sys/UI/Pages/LogIn.dart';
 import 'package:attendance_sys/main.dart';
 import 'package:flutter/material.dart';
 
-class Students {
-  final String roll_no;
-  final int present_days;
-
-  const Students({
-    required this.roll_no,
-    required this.present_days,
-  });
-}
-
-final columns = ['Roll no', 'Present Days'];
-final allStudents = <Students>[
-  Students(roll_no: '075BCT001', present_days: 4),
-];
-
 class StudentInfoWidget extends StatefulWidget {
-  const StudentInfoWidget({Key? key}) : super(key: key);
+  const StudentInfoWidget(
+      {Key? key,
+      required this.classname,
+      required this.subjectname,
+      required this.info,
+      required this.total})
+      : super(key: key);
+
+  final String? classname;
+  final String? subjectname;
+  final List<Map> info; //if enfo is empty handle error
+  final int total;
 
   @override
   _StudentInfoWidgetState createState() => _StudentInfoWidgetState();
@@ -31,6 +27,7 @@ class _StudentInfoWidgetState extends State<StudentInfoWidget> {
   late bool checkboxListTileValue1 = false;
   late bool checkboxListTileValue2 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  int _currentSortColumn = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +69,6 @@ class _StudentInfoWidgetState extends State<StudentInfoWidget> {
               Align(
                 alignment: AlignmentDirectional(0.85, 0),
                 child: InkWell(
-                  
                   onTap: () async {
                     await showDialog(
                       context: context,
@@ -190,7 +186,7 @@ class _StudentInfoWidgetState extends State<StudentInfoWidget> {
                             Align(
                               alignment: AlignmentDirectional(-0.6, 0),
                               child: Text(
-                                'Class Name\nSubject Name',
+                                'Class Name: ${widget.classname}\nSubject Name: ${widget.subjectname}',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
@@ -206,7 +202,7 @@ class _StudentInfoWidgetState extends State<StudentInfoWidget> {
                                 Align(
                                   alignment: AlignmentDirectional(0.65, 0),
                                   child: Text(
-                                    'Total Days:',
+                                    'Total Days: ${widget.total}',
                                     textAlign: TextAlign.end,
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
@@ -224,44 +220,38 @@ class _StudentInfoWidgetState extends State<StudentInfoWidget> {
                     ],
                   ),
                 ),
-                DataTable(  
-              columns: [  
-                DataColumn(label: Text(  
-                    'ID',  
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)  
-                )),  
-                DataColumn(label: Text(  
-                    'Name',  
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)  
-                )),  
-                DataColumn(label: Text(  
-                    'Profession',  
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)  
-                )),  
-              ],  
-              rows: [  
-                DataRow(cells: [  
-                  DataCell(Text('1')),  
-                  DataCell(Text('Stephen')),  
-                  DataCell(Text('Actor')),  
-                ]),  
-                DataRow(cells: [  
-                  DataCell(Text('5')),  
-                  DataCell(Text('John')),  
-                  DataCell(Text('Student')),  
-                ]),  
-                DataRow(cells: [  
-                  DataCell(Text('10')),  
-                  DataCell(Text('Harry')),  
-                  DataCell(Text('Leader')),  
-                ]),  
-                DataRow(cells: [  
-                  DataCell(Text('15')),  
-                  DataCell(Text('Peter')),  
-                  DataCell(Text('Scientist')),  
-                ]),  
-              ],  
-            ),
+                DataTable(
+                  columns: [
+                    DataColumn(
+                      label: Text('Roll no'),
+                      // onSort: (columnIndex, _) {
+                      //   setState(() {
+                      //     _currentSortColumn = columnIndex;
+                      //     if (_isSortAsc) {
+                      //       allStudents.sort((a, b) =>
+                      //           b['Roll no'].compareTo(a['Roll no']));
+                      //     } else {
+                      //       allStudents.sort((a, b) =>
+                      //           a['Roll no'].compareTo(b['Roll no']));
+                      //     }
+                      //     _isSortAsc = !_isSortAsc;
+                      //   });
+                      // },
+                    ),
+                    DataColumn(
+                      label: Text('Present Days'),
+                      numeric: true,
+                    )
+                  ],
+                  rows: widget.info
+                      .map((student) => DataRow(cells: [
+                            DataCell(Text(student['roll_no'])),
+                            DataCell(Text(student['present_days'].toString()))
+                          ]))
+                      .toList(),
+                  // sortColumnIndex: _currentSortColumn,
+                  // sortAscending: _isSortAsc,
+                ),
               ],
             ),
           ),

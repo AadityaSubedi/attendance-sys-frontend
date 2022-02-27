@@ -317,12 +317,15 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                               children: <Widget>[
                                                 TextFormField(
                                                   decoration: InputDecoration(
-                                                    labelText: 'Attendance Time',
+                                                    labelText:
+                                                        'Attendance Time',
                                                     icon: Icon(Icons.watch),
                                                   ),
-                                                  onChanged: (String? newValue) {
+                                                  onChanged:
+                                                      (String? newValue) {
                                                     setState(() {
-                                                      attendanceTime = newValue!;
+                                                      attendanceTime =
+                                                          newValue!;
                                                     });
                                                   },
                                                 ),
@@ -338,21 +341,22 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                         ),
                                         actions: [
                                           RaisedButton(
-                                              child: Text("Start"),
-                                              onPressed: () async {
-                                                    const url =
-                                                        // use localhost:
-                                                        'http://192.168.1.66:5000/api/takeattendance';
+                                            child: Text("Start"),
+                                            onPressed: () async {
+                                              const url =
+                                                  // use localhost:
+                                                  'http://192.168.1.66:5000/api/takeattendance';
 
-                                                    var body = {
-                                                      "classname": classsChoose,
-                                                      "subjectname": subChoose,
-                                                      "time": attendanceTime
-                                                    };
-                                                    var data = await fetchData(
-                                                      url, body, 'POST');
-                                                      Navigator.of(context).pop();
-                                                  },)
+                                              var body = {
+                                                "classname": classsChoose,
+                                                "subjectname": subChoose,
+                                                "time": attendanceTime,
+                                              };
+                                              var data = await fetchData(
+                                                  url, body, 'POST');
+                                              Navigator.of(context).pop();
+                                            },
+                                          )
                                         ],
                                       );
                                     });
@@ -408,8 +412,10 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                 await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        AttendanceListWidget(datedata: data, classname: classsChoose, subjectname: subChoose),
+                                    builder: (context) => AttendanceListWidget(
+                                        datedata: data,
+                                        classname: classsChoose,
+                                        subjectname: subChoose),
                                     // AttendanceListWidget(),
                                   ),
                                 );
@@ -487,12 +493,29 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                             ),
                             child: InkWell(
                               onTap: () async {
+                                const url =
+                                    'http://192.168.1.66:5000/api/getinfo';
+                                var body = {
+                                  "classname": classsChoose,
+                                  "subjectname": subChoose
+                                };
+                                var data = await fetchData(url, body, 'GET');
+
+                                List<Map> allStudents = [];
+                                if (data.length != 0){
+                                  data['working_days'].forEach((k, v) => allStudents.add({'roll_no': k, 'present_days': v}));
+                                }
+                                
+
                                 await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        const StudentInfoWidget(),
-                                    //StudentInfoWidget(),
+                                    builder: (context) => StudentInfoWidget(
+                                        classname: classsChoose,
+                                        subjectname: subChoose,
+                                        info: allStudents,
+                                        total: data['total_days']),
+                                    // AttendanceListWidget(),
                                   ),
                                 );
                               },
