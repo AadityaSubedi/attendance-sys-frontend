@@ -224,46 +224,44 @@ class _StudentInfoWidgetState extends State<StudentInfoWidget> {
                     ],
                   ),
                 ),
-                Table(
-                  border: TableBorder.all(),
-                  columnWidths: {
-                    0: FractionColumnWidth(0.7),
-                    1: FractionColumnWidth(0.3),
-                  },
-                  children: [buildRow(columns)],
-                ),
-                CheckboxListTile(
-                  value: checkboxListTileValue1,
-                  onChanged: (newValue) =>
-                      setState(() => checkboxListTileValue1 = newValue!),
-                  title: Text(
-                    'Title',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 20,
-                      color: colrorPrimary,
-                    ),
-                  ),
-                  tileColor: Color(0xFFF5F5F5),
-                  dense: false,
-                  controlAffinity: ListTileControlAffinity.trailing,
-                ),
-                CheckboxListTile(
-                  value: checkboxListTileValue2,
-                  onChanged: (newValue) =>
-                      setState(() => checkboxListTileValue2 = newValue!),
-                  title: Text(
-                    'Title',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 20,
-                      color: colrorPrimary,
-                    ),
-                  ),
-                  tileColor: Color(0xFFF5F5F5),
-                  dense: false,
-                  controlAffinity: ListTileControlAffinity.trailing,
-                ),
+                DataTable(  
+              columns: [  
+                DataColumn(label: Text(  
+                    'ID',  
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)  
+                )),  
+                DataColumn(label: Text(  
+                    'Name',  
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)  
+                )),  
+                DataColumn(label: Text(  
+                    'Profession',  
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)  
+                )),  
+              ],  
+              rows: [  
+                DataRow(cells: [  
+                  DataCell(Text('1')),  
+                  DataCell(Text('Stephen')),  
+                  DataCell(Text('Actor')),  
+                ]),  
+                DataRow(cells: [  
+                  DataCell(Text('5')),  
+                  DataCell(Text('John')),  
+                  DataCell(Text('Student')),  
+                ]),  
+                DataRow(cells: [  
+                  DataCell(Text('10')),  
+                  DataCell(Text('Harry')),  
+                  DataCell(Text('Leader')),  
+                ]),  
+                DataRow(cells: [  
+                  DataCell(Text('15')),  
+                  DataCell(Text('Peter')),  
+                  DataCell(Text('Scientist')),  
+                ]),  
+              ],  
+            ),
               ],
             ),
           ),
