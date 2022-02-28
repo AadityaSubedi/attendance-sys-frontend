@@ -4,14 +4,15 @@ import 'package:attendance_sys/UI/Pages/Dashboard.dart';
 import 'package:attendance_sys/UI/Pages/LogIn.dart';
 import 'package:attendance_sys/main.dart';
 import 'package:easy_debounce/easy_debounce.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 
 class CustomIconButton extends StatelessWidget {
-  CustomIconButton({@required this.onPressed});
-  final GestureTapCallback? onPressed;
+  CustomIconButton({@required this.onPress});
+  final onPress;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class CustomIconButton extends StatelessWidget {
             color: Color(0xFFEA734D),
             size: 60,
           ),
-          onPressed: onPressed,
+          onPressed: onPress,
         ));
   }
 }
@@ -50,11 +51,11 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
 
   void pickImages() async {
     final List<XFile>? images = await _picker.pickMultiImage();
-    print("+ clicked");
     if (images != []) {
       allImages.removeLast();
       allImages.addAll(images!);
     }
+    print(kIsWeb);
     setState(() {});
   }
 
@@ -68,7 +69,7 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
   @override
   Widget build(BuildContext context) {
     // setState(() {
-    allImages.add(CustomIconButton(onPressed: pickImages));
+    allImages.add(CustomIconButton(onPress: pickImages));
     // });
     return Scaffold(
       key: scaffoldKey,
