@@ -7,6 +7,7 @@
 //import 'package:attendancesys_flutter/Screens/LogIn.dart';
 import 'dart:convert';
 
+import 'package:attendance_sys/UI/Pages/AddTrainStudents.dart';
 import 'package:attendance_sys/UI/Pages/AttendanceList.dart';
 import 'package:attendance_sys/UI/Pages/LogIn.dart';
 import 'package:attendance_sys/UI/Pages/StudentInfo.dart';
@@ -345,7 +346,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                             onPressed: () async {
                                               const url =
                                                   // use localhost:
-                                                  'http://192.168.1.66:5000/api/takeattendance';
+                                                  'http://192.168.1.71:5000/api/takeattendance';
 
                                               var body = {
                                                 "classname": classsChoose,
@@ -402,7 +403,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                             child: InkWell(
                               onTap: () async {
                                 const url =
-                                    'http://192.168.1.66:5000/api/getattendancelist';
+                                    'http://192.168.1.71:5000/api/getattendancelist';
                                 var body = {
                                   "classname": classsChoose,
                                   "subjectname": subChoose
@@ -451,6 +452,15 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
                               20, 0, 0, 20),
+                          child: InkWell(
+                          onTap: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddTrainStudentWidget(),
+                              ),
+                            );
+                          },
                           child: Card(
                             clipBehavior: Clip.antiAliasWithSaveLayer,
                             color: Colors.white,
@@ -480,6 +490,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                               ],
                             ),
                           ),
+                           ),
                         ),
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
@@ -494,7 +505,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                             child: InkWell(
                               onTap: () async {
                                 const url =
-                                    'http://192.168.1.66:5000/api/getinfo';
+                                    'http://192.168.1.71:5000/api/getinfo';
                                 var body = {
                                   "classname": classsChoose,
                                   "subjectname": subChoose
