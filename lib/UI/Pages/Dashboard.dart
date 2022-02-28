@@ -10,6 +10,7 @@ import 'dart:convert';
 import 'package:attendance_sys/UI/Pages/AttendanceList.dart';
 import 'package:attendance_sys/UI/Pages/LogIn.dart';
 import 'package:attendance_sys/UI/Pages/StudentInfo.dart';
+import 'package:attendance_sys/UI/Pages/TakeAttendance.dart';
 import 'package:attendance_sys/function.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -355,6 +356,13 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                               var data = await fetchData(
                                                   url, body, 'POST');
                                               Navigator.of(context).pop();
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => TakeAttendanceWidget(time: attendanceTime),
+                                                  // AttendanceListWidget(),
+                                                ),
+                                              );
                                             },
                                           )
                                         ],
