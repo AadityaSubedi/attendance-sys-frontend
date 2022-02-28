@@ -1,13 +1,38 @@
+import 'dart:io';
+
 import 'package:attendance_sys/UI/Pages/Dashboard.dart';
 import 'package:attendance_sys/UI/Pages/LogIn.dart';
 import 'package:attendance_sys/main.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 
+class CustomIconButton extends StatelessWidget {
+  CustomIconButton({@required this.onPressed});
+  final GestureTapCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Ink(
+        color: Color(0xFF265784),
+        child: IconButton(
+          hoverColor: Colors.transparent,
+          // borderWidth: 1,
+          // buttonSize: 60,
+          icon: const Icon(
+            Icons.add_circle,
+            color: Color(0xFFEA734D),
+            size: 60,
+          ),
+          onPressed: () => onPressed,
+        ));
+  }
+}
+
 class AddTrainStudentWidget extends StatefulWidget {
-  const AddTrainStudentWidget({ Key? key}) : super(key: key);
+  const AddTrainStudentWidget({Key? key}) : super(key: key);
 
   @override
   _AddTrainStudentWidgetState createState() => _AddTrainStudentWidgetState();
@@ -19,6 +44,18 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
   late TextEditingController textController2;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final ImagePicker _picker = ImagePicker();
+
+  List allImages = [];
+
+  void pickImages() async {
+    final List<XFile>? images = await _picker.pickMultiImage();
+    if (images != []) {
+      allImages.addAll(images!);
+    }
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -28,6 +65,9 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // setState(() {
+    allImages.add(CustomIconButton(onPressed: () => pickImages()));
+    // });
     return Scaffold(
       key: scaffoldKey,
       appBar: PreferredSize(
@@ -131,7 +171,7 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
           elevation: 0,
         ),
       ),
-    backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -283,92 +323,48 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                 Expanded(
                   child: Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
-                    child: GridView(
-                      padding: EdgeInsets.zero,
-                      // ignore: prefer_const_constructors
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5,
-                        childAspectRatio: 1,
-                      ),
-                      scrollDirection: Axis.vertical,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            'https://picsum.photos/seed/954/600',
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
+                    child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          crossAxisSpacing: 5,
+                          mainAxisSpacing: 5,
+                          childAspectRatio: 1,
                         ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            'https://picsum.photos/seed/954/600',
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            'https://picsum.photos/seed/954/600',
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            'https://picsum.photos/seed/954/600',
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            'https://picsum.photos/seed/954/600',
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            'https://picsum.photos/seed/954/600',
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        IconButton(
-                          hoverColor: Colors.transparent,
-                          // Radius: 30,
-                          // borderWidth: 1,
-                          // buttonSize: 60,
-                          icon: Icon(
-                            Icons.add_circle,
-                            color: Color(0xFFEA734D),
-                            size: 60,
-                          ),
-                          onPressed: () async {
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DashboardWidget(),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                        scrollDirection: Axis.vertical,
+                        itemCount: allImages.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: allImages[index].runtimeType == XFile ? 
+                            Image.file(
+                              File(allImages[index].path),
+                              fit: BoxFit.cover,
+                            ) : 
+                            allImages[index],
+                          );
+                          // Ink(
+                          //     color: Color(0xFF265784),
+                          //     child: IconButton(
+                          //       hoverColor: Colors.transparent,
+                          //       // borderWidth: 1,
+                          //       // buttonSize: 60,
+                          //       icon: Icon(
+                          //         Icons.add_circle,
+                          //         color: Color(0xFFEA734D),
+                          //         size: 60,
+                          //       ),
+                          //       onPressed: () => pickImages(),
+                          //       // async {
+                          //       //   await Navigator.push(
+                          //       //     context,
+                          //       //     MaterialPageRoute(
+                          //       //       builder: (context) => DashboardWidget(),
+                          //       //     ),
+                          //       //   );
+                          //       // },
+                          //     )),
+                        }),
                   ),
                 ),
                 Row(
@@ -378,7 +374,6 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                       child: ElevatedButton(
-                        
                         onPressed: () async {
                           await Navigator.push(
                             context,
@@ -396,20 +391,19 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                             ),
                           );
                         },
-                         child: const Text(
-                            'Upload',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                              fontSize: 18,
-                            ),
+                        child: const Text(
+                          'Upload',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                            fontSize: 18,
                           ),
+                        ),
                       ),
                     ),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                       child: ElevatedButton(
-                        
                         onPressed: () async {
                           await Navigator.push(
                             context,
@@ -427,16 +421,15 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                             ),
                           );
                         },
-                         child: const Text(
-                            'Train',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                              fontSize: 18,
-                            ),
+                        child: const Text(
+                          'Train',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                            fontSize: 18,
                           ),
+                        ),
                       ),
-                    
                     ),
                   ],
                 ),
