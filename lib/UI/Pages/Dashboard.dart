@@ -16,14 +16,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class DashboardWidget extends StatefulWidget {
-  const DashboardWidget({Key? key}) : super(key: key);
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({Key? key}) : super(key: key);
+  static const routeName = "/dashboard";
 
   @override
-  _DashboardWidgetState createState() => _DashboardWidgetState();
+  _DashboardScreenState createState() => _DashboardScreenState();
 }
 
-class _DashboardWidgetState extends State<DashboardWidget> {
+class _DashboardScreenState extends State<DashboardScreen> {
   late String dropDownValue1;
   late String dropDownValue2;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -39,7 +40,6 @@ class _DashboardWidgetState extends State<DashboardWidget> {
   String? subChoose;
   String? classsChoose;
   // late final url = '';
-
   List<DropdownMenuItem<String>> getList(lists) {
     List<DropdownMenuItem<String>> dropdownItems = [];
     for (String each in lists) {

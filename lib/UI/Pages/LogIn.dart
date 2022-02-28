@@ -8,6 +8,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '../../providers/auth.dart';
+import '../../widgets/dialog.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -18,18 +21,38 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
-  late TextEditingController textController1;
-  late TextEditingController textController2;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
   late bool passwordVisibility;
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  var _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    textController1 = TextEditingController();
-    textController2 = TextEditingController();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
     passwordVisibility = false;
+  }
+
+  void _login() async {
+    try {
+      var _loginData = {
+        "username": emailController.text,
+        "password": passwordController.text
+      };
+
+      setState(() {
+        _isLoading = true;
+      });
+      await Provider.of<Auth>(context, listen: false).login(_loginData);
+    } catch (error) {
+      showErrorDialog(error as String, context);
+    }
+      setState(() {
+        _isLoading = false;
+      });
   }
 
   @override
@@ -164,7 +187,7 @@ class _LogInScreenState extends State<LogInScreen> {
                           const Duration(milliseconds: 2000),
                           () => setState(() {}),
                         ),
-                        controller: textController1,
+                        controller: emailController,
                         obscureText: false,
                         decoration: InputDecoration(
                           hintText: 'Username',
@@ -186,10 +209,10 @@ class _LogInScreenState extends State<LogInScreen> {
                             Icons.person_outline_rounded,
                             color: Color(0xFF265784),
                           ),
-                          suffixIcon: textController1.text.isNotEmpty
+                          suffixIcon: emailController.text.isNotEmpty
                               ? InkWell(
                                   onTap: () => setState(
-                                    () => textController1.clear(),
+                                    () => emailController.clear(),
                                   ),
                                   child: const Icon(
                                     Icons.clear,
@@ -222,7 +245,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       padding:
                           const EdgeInsetsDirectional.fromSTEB(35, 20, 35, 0),
                       child: TextFormField(
-                        controller: textController2,
+                        controller: passwordController,
                         obscureText: !passwordVisibility,
                         decoration: InputDecoration(
                           hintText: 'Password',
@@ -276,6 +299,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       ),
                     ),
                   ),
+                  _isLoading? CircularProgressIndicator():
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                     child: ElevatedButton(
@@ -287,18 +311,7 @@ class _LogInScreenState extends State<LogInScreen> {
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
-                      onPressed: () async {
-                        await Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            duration: const Duration(milliseconds: 0),
-                            reverseDuration: const Duration(milliseconds: 0),
-                            child:
-                                const DashboardWidget(), //Text("DashBoard Called")
-                          ),
-                        );
-                      },
+                      onPressed: _login,
                       child: const Text(
                         'LogIn',
                         style: TextStyle(

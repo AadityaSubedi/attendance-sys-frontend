@@ -104,7 +104,7 @@ class _AttendanceListWidgetState extends State<AttendanceListWidget> {
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DashboardWidget(),
+                      builder: (context) => DashboardScreen(),
                     ),
                   );
                 },

@@ -120,7 +120,7 @@ class _StudentInfoWidgetState extends State<StudentInfoWidget> {
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DashboardWidget(),
+                      builder: (context) => DashboardScreen(),
                     ),
                   );
                 },
