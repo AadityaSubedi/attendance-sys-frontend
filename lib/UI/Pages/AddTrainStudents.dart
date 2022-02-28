@@ -26,7 +26,7 @@ class CustomIconButton extends StatelessWidget {
             color: Color(0xFFEA734D),
             size: 60,
           ),
-          onPressed: () => onPressed,
+          onPressed: onPressed,
         ));
   }
 }
@@ -50,7 +50,9 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
 
   void pickImages() async {
     final List<XFile>? images = await _picker.pickMultiImage();
+    print("+ clicked");
     if (images != []) {
+      allImages.removeLast();
       allImages.addAll(images!);
     }
     setState(() {});
@@ -66,7 +68,7 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
   @override
   Widget build(BuildContext context) {
     // setState(() {
-    allImages.add(CustomIconButton(onPressed: () => pickImages()));
+    allImages.add(CustomIconButton(onPressed: pickImages));
     // });
     return Scaffold(
       key: scaffoldKey,
@@ -336,12 +338,12 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                         itemBuilder: (BuildContext context, int index) {
                           return ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: allImages[index].runtimeType == XFile ? 
-                            Image.file(
-                              File(allImages[index].path),
-                              fit: BoxFit.cover,
-                            ) : 
-                            allImages[index],
+                            child: allImages[index].runtimeType == XFile
+                                ? Image.file(
+                                    File(allImages[index].path),
+                                    fit: BoxFit.cover,
+                                  )
+                                : allImages[index],
                           );
                           // Ink(
                           //     color: Color(0xFF265784),
