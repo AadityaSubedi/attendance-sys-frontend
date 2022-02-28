@@ -2,6 +2,8 @@
 // import 'package:attendancesys_flutter/UI/Pages/Dashboard.dart';
 // ignore_for_file: prefer_const_constructors, unnecessary_const, prefer_const_literals_to_create_immutables
 
+import 'dart:html';
+
 import 'package:attendance_sys/UI/Pages/Dashboard.dart';
 import 'package:attendance_sys/UI/Pages/LogIn.dart';
 import 'package:attendance_sys/main.dart';
@@ -11,37 +13,71 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import '../../providers/auth.dart';
+import '../../widgets/subjects.dart';
 
-class RegisterWidget extends StatefulWidget {
-  const RegisterWidget({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
+  static const routeName = "/register";
 
   @override
-  _RegisterWidgetState createState() => _RegisterWidgetState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _RegisterWidgetState extends State<RegisterWidget> {
-  late TextEditingController textController1;
-  late TextEditingController textController2;
-  late TextEditingController textController3;
+class _RegisterScreenState extends State<RegisterScreen> {
+  late TextEditingController usernameController;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
   late bool passwordVisibility1;
-  late TextEditingController textController4;
+  late TextEditingController confirmpasswordController;
   late bool passwordVisibility2;
-  late TextEditingController textController5;
+  late TextEditingController fullnameController;
   late TextEditingController textController6;
   late TextEditingController textController7;
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  var _isLoading = false;
+  var _controllers = [];
+  void _callbackfn(List<TextEditingController> controllerPair) {
+
+      _controllers.add(controllerPair);
+
+  }
+
+  void _submit() async {
+    Map<String, dynamic> _registerData = {
+      'email': emailController.text,
+      'password': passwordController.text,
+      'username': usernameController.text,
+      'fullname': fullnameController.text,
+      'subjects': {},
+    };
+    for (final controller in _controllers) {
+      _registerData["subjects"][controller[0].text] =
+          controller[1].text.replaceAll(' ', '').split(",");
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+    await Provider.of<Auth>(context, listen: false).register(_registerData);
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    textController1 = TextEditingController();
-    textController2 = TextEditingController();
-    textController3 = TextEditingController();
+    usernameController = TextEditingController();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
     passwordVisibility1 = false;
-    textController4 = TextEditingController();
+    confirmpasswordController = TextEditingController();
     passwordVisibility2 = false;
-    textController5 = TextEditingController();
+    fullnameController = TextEditingController();
     textController6 = TextEditingController();
     textController7 = TextEditingController();
   }
@@ -64,7 +100,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                 child: Text(
                   'Smart \nAttendance',
-                  style:TextStyle(
+                  style: TextStyle(
                     fontFamily: 'Poppins',
                     color: Colors.white,
                     fontSize: 30,
@@ -136,8 +172,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                         Align(
                           alignment: const AlignmentDirectional(-0.85, -0.2),
                           child: Padding(
-                            padding:
-                                const EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                10, 10, 0, 0),
                             child: AutoSizeText(
                               'Welcome On board!',
                               style: GoogleFonts.getFont(
@@ -155,7 +191,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                     child: Align(
                       alignment: const AlignmentDirectional(0, 0),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(0, 25, 0, 0),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0, 25, 0, 0),
                         child: DefaultTabController(
                           length: 2,
                           initialIndex: 0,
@@ -182,8 +219,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                 child: TabBarView(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0, 1, 0, 0),
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0, 1, 0, 0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -191,24 +229,28 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                         children: [
                                           Align(
                                             alignment:
-                                                const AlignmentDirectional(0, 0),
+                                                const AlignmentDirectional(
+                                                    0, 0),
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(35, 55, 35, 0),
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(35, 55, 35, 0),
                                               child: TextFormField(
-                                                onChanged: (_) =>
+                                                onChanged: (text) =>
                                                     EasyDebounce.debounce(
                                                   'textController1',
-                                                  const Duration(milliseconds: 2000),
+                                                  const Duration(
+                                                      milliseconds: 2000),
                                                   () => setState(() {}),
                                                 ),
-                                                controller: textController1,
+                                                controller: usernameController,
                                                 obscureText: false,
                                                 decoration: InputDecoration(
                                                   hintText: 'Username',
                                                   enabledBorder:
                                                       OutlineInputBorder(
-                                                    borderSide: const BorderSide(
+                                                    borderSide:
+                                                        const BorderSide(
                                                       color: Color(0x3F265784),
                                                       width: 3,
                                                     ),
@@ -218,7 +260,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                                   ),
                                                   focusedBorder:
                                                       OutlineInputBorder(
-                                                    borderSide: const BorderSide(
+                                                    borderSide:
+                                                        const BorderSide(
                                                       color: Color(0x3F265784),
                                                       width: 3,
                                                     ),
@@ -231,12 +274,12 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                                         .person_outline_rounded,
                                                     color: Color(0xFF265784),
                                                   ),
-                                                  suffixIcon: textController1
+                                                  suffixIcon: usernameController
                                                           .text.isNotEmpty
                                                       ? InkWell(
                                                           onTap: () => setState(
                                                             () =>
-                                                                textController1
+                                                                usernameController
                                                                     .clear(),
                                                           ),
                                                           child: const Icon(
@@ -250,7 +293,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                                 ),
                                                 style: GoogleFonts.getFont(
                                                   'Roboto',
-                                                  color: const Color(0x7F265784),
+                                                  color:
+                                                      const Color(0x7F265784),
                                                   fontSize: 18,
                                                 ),
                                                 textAlign: TextAlign.center,
@@ -268,24 +312,28 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                           ),
                                           Align(
                                             alignment:
-                                                const AlignmentDirectional(0, 0),
+                                                const AlignmentDirectional(
+                                                    0, 0),
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(35, 40, 35, 0),
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(35, 40, 35, 0),
                                               child: TextFormField(
-                                                onChanged: (_) =>
+                                                onChanged: (text) =>
                                                     EasyDebounce.debounce(
                                                   'textController2',
-                                                  const Duration(milliseconds: 2000),
+                                                  const Duration(
+                                                      milliseconds: 2000),
                                                   () => setState(() {}),
                                                 ),
-                                                controller: textController2,
+                                                controller: emailController,
                                                 obscureText: false,
                                                 decoration: InputDecoration(
                                                   hintText: 'Email',
                                                   enabledBorder:
                                                       OutlineInputBorder(
-                                                    borderSide: const BorderSide(
+                                                    borderSide:
+                                                        const BorderSide(
                                                       color: Color(0x3F265784),
                                                       width: 3,
                                                     ),
@@ -295,7 +343,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                                   ),
                                                   focusedBorder:
                                                       OutlineInputBorder(
-                                                    borderSide: const BorderSide(
+                                                    borderSide:
+                                                        const BorderSide(
                                                       color: Color(0x3F265784),
                                                       width: 3,
                                                     ),
@@ -307,12 +356,12 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                                     Icons.email_outlined,
                                                     color: Color(0xFF265784),
                                                   ),
-                                                  suffixIcon: textController2
+                                                  suffixIcon: emailController
                                                           .text.isNotEmpty
                                                       ? InkWell(
                                                           onTap: () => setState(
                                                             () =>
-                                                                textController2
+                                                                emailController
                                                                     .clear(),
                                                           ),
                                                           child: const Icon(
@@ -326,7 +375,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                                 ),
                                                 style: GoogleFonts.getFont(
                                                   'Roboto',
-                                                  color: const Color(0x7F265784),
+                                                  color:
+                                                      const Color(0x7F265784),
                                                   fontSize: 18,
                                                 ),
                                                 textAlign: TextAlign.center,
@@ -343,19 +393,29 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                           ),
                                           Align(
                                             alignment:
-                                                const AlignmentDirectional(0, 0),
+                                                const AlignmentDirectional(
+                                                    0, 0),
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(35, 40, 35, 0),
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(35, 40, 35, 0),
                                               child: TextFormField(
-                                                controller: textController3,
+                                                onChanged: (text) =>
+                                                    EasyDebounce.debounce(
+                                                  'textController3',
+                                                  const Duration(
+                                                      milliseconds: 2000),
+                                                  () => setState(() {}),
+                                                ),
+                                                controller: passwordController,
                                                 obscureText:
                                                     !passwordVisibility1,
                                                 decoration: InputDecoration(
                                                   hintText: 'Password',
                                                   enabledBorder:
                                                       OutlineInputBorder(
-                                                    borderSide: const BorderSide(
+                                                    borderSide:
+                                                        const BorderSide(
                                                       color: Color(0x3F265784),
                                                       width: 3,
                                                     ),
@@ -365,8 +425,10 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                                   ),
                                                   focusedBorder:
                                                       OutlineInputBorder(
-                                                    borderSide: const BorderSide(
-                                                      color: const Color(0x3F265784),
+                                                    borderSide:
+                                                        const BorderSide(
+                                                      color: const Color(
+                                                          0x3F265784),
                                                       width: 3,
                                                     ),
                                                     borderRadius:
@@ -388,14 +450,16 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                                               .visibility_outlined
                                                           : Icons
                                                               .visibility_off_outlined,
-                                                      color: const Color(0xFF265784),
+                                                      color: const Color(
+                                                          0xFF265784),
                                                       size: 22,
                                                     ),
                                                   ),
                                                 ),
                                                 style: GoogleFonts.getFont(
                                                   'Roboto',
-                                                  color: const Color(0x7F265784),
+                                                  color:
+                                                      const Color(0x7F265784),
                                                   fontSize: 18,
                                                 ),
                                                 textAlign: TextAlign.center,
@@ -415,20 +479,25 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                           ),
                                           Align(
                                             alignment:
-                                                const AlignmentDirectional(0, 0),
+                                                const AlignmentDirectional(
+                                                    0, 0),
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(35, 40, 35, 0),
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(35, 40, 35, 0),
                                               child: TextFormField(
-                                                controller: textController4,
+                                                controller:
+                                                    confirmpasswordController,
                                                 obscureText:
                                                     !passwordVisibility2,
                                                 decoration: InputDecoration(
                                                   hintText: 'Confirm Password',
                                                   enabledBorder:
                                                       OutlineInputBorder(
-                                                    borderSide: const BorderSide(
-                                                      color: const Color(0x3F265784),
+                                                    borderSide:
+                                                        const BorderSide(
+                                                      color: const Color(
+                                                          0x3F265784),
                                                       width: 3,
                                                     ),
                                                     borderRadius:
@@ -437,7 +506,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                                   ),
                                                   focusedBorder:
                                                       OutlineInputBorder(
-                                                    borderSide: const BorderSide(
+                                                    borderSide:
+                                                        const BorderSide(
                                                       color: Color(0x3F265784),
                                                       width: 3,
                                                     ),
@@ -460,14 +530,16 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                                               .visibility_outlined
                                                           : Icons
                                                               .visibility_off_outlined,
-                                                      color: const Color(0xFF265784),
+                                                      color: const Color(
+                                                          0xFF265784),
                                                       size: 22,
                                                     ),
                                                   ),
                                                 ),
                                                 style: GoogleFonts.getFont(
                                                   'Roboto',
-                                                  color: const Color(0x7F265784),
+                                                  color:
+                                                      const Color(0x7F265784),
                                                   fontSize: 18,
                                                 ),
                                                 textAlign: TextAlign.center,
@@ -480,15 +552,18 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                                   if (val.length < 6) {
                                                     return 'Password must be at least 6 character long';
                                                   }
+                                                  if (val !=
+                                                      passwordController.text) {
+                                                    return ("Match doesn't match");
+                                                  }
                                                   return null;
                                                 },
                                               ),
                                             ),
                                           ),
                                           Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    0, 20, 0, 0),
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(0, 20, 0, 0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
                                               mainAxisAlignment:
@@ -499,12 +574,418 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                                 Text(
                                                   'Already have an account?',
                                                   style: TextStyle(
+                                                    fontFamily: 'Poppins',
+                                                    color:
+                                                        HexColor("#7f265784"),
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                                TextButton(
+                                                  style: TextButton.styleFrom(
+                                                    primary: Colors.white,
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.of(context)
+                                                        .pushReplacementNamed(
+                                                            LogInScreen
+                                                                .routeName);
+                                                  },
+                                                  child: Text(
+                                                    'Sign In',
+                                                    style: TextStyle(
                                                       fontFamily: 'Poppins',
-                                                      color: HexColor("#7f265784"),
+                                                      color: colorSecondary,
                                                       fontSize: 16,
                                                     ),
+                                                  ),
                                                 ),
-                                               TextButton(
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Align(
+                                                alignment:
+                                                    const AlignmentDirectional(
+                                                        0, 0),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                          35, 20, 35, 0),
+                                                  child: TextFormField(
+                                                    onChanged: (text) =>
+                                                        EasyDebounce.debounce(
+                                                      'textController5',
+                                                      const Duration(
+                                                          milliseconds: 2000),
+                                                      () => setState(() {}),
+                                                    ),
+                                                    controller:
+                                                        fullnameController,
+                                                    obscureText: false,
+                                                    decoration: InputDecoration(
+                                                      hintText: 'Full Name',
+                                                      enabledBorder:
+                                                          OutlineInputBorder(
+                                                        borderSide:
+                                                            const BorderSide(
+                                                          color:
+                                                              Color(0x3F265784),
+                                                          width: 3,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(25),
+                                                      ),
+                                                      focusedBorder:
+                                                          OutlineInputBorder(
+                                                        borderSide:
+                                                            const BorderSide(
+                                                          color:
+                                                              Color(0x3F265784),
+                                                          width: 3,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(25),
+                                                      ),
+                                                      prefixIcon: const Icon(
+                                                        Icons
+                                                            .person_outline_rounded,
+                                                        color:
+                                                            Color(0xFF265784),
+                                                      ),
+                                                      suffixIcon:
+                                                          fullnameController
+                                                                  .text
+                                                                  .isNotEmpty
+                                                              ? InkWell(
+                                                                  onTap: () =>
+                                                                      setState(
+                                                                    () => fullnameController
+                                                                        .clear(),
+                                                                  ),
+                                                                  child:
+                                                                      const Icon(
+                                                                    Icons.clear,
+                                                                    color: Color(
+                                                                        0xFF265784),
+                                                                    size: 22,
+                                                                  ),
+                                                                )
+                                                              : null,
+                                                    ),
+                                                    style: GoogleFonts.getFont(
+                                                      'Roboto',
+                                                      color: const Color(
+                                                          0x7F265784),
+                                                      fontSize: 18,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                    keyboardType:
+                                                        TextInputType.name,
+                                                    validator: (val) {
+                                                      if (val!.isEmpty) {
+                                                        return 'FullName required';
+                                                      }
+
+                                                      return null;
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          true
+                                              ? Subjects(
+                                                  callbackfn: _callbackfn,
+                                                )
+                                              : Column(children: [
+                                                  Align(
+                                                    alignment:
+                                                        const AlignmentDirectional(
+                                                            0, 0),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                              35, 35, 35, 0),
+                                                      child: TextFormField(
+                                                        onChanged: (text) =>
+                                                            EasyDebounce
+                                                                .debounce(
+                                                          'textController6',
+                                                          const Duration(
+                                                              milliseconds:
+                                                                  2000),
+                                                          () => setState(() {}),
+                                                        ),
+                                                        controller:
+                                                            textController6,
+                                                        obscureText: false,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          hintText: 'Subject 1',
+                                                          enabledBorder:
+                                                              OutlineInputBorder(
+                                                            borderSide:
+                                                                const BorderSide(
+                                                              color: Color(
+                                                                  0x3F265784),
+                                                              width: 3,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        25),
+                                                          ),
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
+                                                            borderSide:
+                                                                const BorderSide(
+                                                              color: Color(
+                                                                  0x3F265784),
+                                                              width: 3,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        25),
+                                                          ),
+                                                          prefixIcon:
+                                                              const Icon(
+                                                            Icons.subject,
+                                                            color: Color(
+                                                                0xFF265784),
+                                                          ),
+                                                          suffixIcon:
+                                                              textController6
+                                                                      .text
+                                                                      .isNotEmpty
+                                                                  ? InkWell(
+                                                                      onTap: () =>
+                                                                          setState(
+                                                                        () => textController6
+                                                                            .clear(),
+                                                                      ),
+                                                                      child:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .clear,
+                                                                        color: Color(
+                                                                            0xFF265784),
+                                                                        size:
+                                                                            22,
+                                                                      ),
+                                                                    )
+                                                                  : null,
+                                                        ),
+                                                        style:
+                                                            GoogleFonts.getFont(
+                                                          'Roboto',
+                                                          color: const Color(
+                                                              0x7F265784),
+                                                          fontSize: 18,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        keyboardType:
+                                                            TextInputType.name,
+                                                        validator: (val) {
+                                                          if (val!.isEmpty) {
+                                                            return 'Subject required';
+                                                          }
+
+                                                          return null;
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        const AlignmentDirectional(
+                                                            0, 0),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                              35, 25, 35, 0),
+                                                      child: TextFormField(
+                                                        onChanged: (_) =>
+                                                            EasyDebounce
+                                                                .debounce(
+                                                          'textController7',
+                                                          const Duration(
+                                                              milliseconds:
+                                                                  2000),
+                                                          () => setState(() {}),
+                                                        ),
+                                                        controller:
+                                                            textController7,
+                                                        obscureText: false,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          hintText:
+                                                              'Classes for Subject 1',
+                                                          enabledBorder:
+                                                              OutlineInputBorder(
+                                                            borderSide:
+                                                                const BorderSide(
+                                                              color: const Color(
+                                                                  0x3F265784),
+                                                              width: 3,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        25),
+                                                          ),
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
+                                                            borderSide:
+                                                                const BorderSide(
+                                                              color: const Color(
+                                                                  0x3F265784),
+                                                              width: 3,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        25),
+                                                          ),
+                                                          prefixIcon:
+                                                              const Icon(
+                                                            Icons
+                                                                .person_outline_rounded,
+                                                            color: const Color(
+                                                                0xFF265784),
+                                                          ),
+                                                          suffixIcon:
+                                                              textController7
+                                                                      .text
+                                                                      .isNotEmpty
+                                                                  ? InkWell(
+                                                                      onTap: () =>
+                                                                          setState(
+                                                                        () => textController7
+                                                                            .clear(),
+                                                                      ),
+                                                                      child:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .clear,
+                                                                        color: Color(
+                                                                            0xFF265784),
+                                                                        size:
+                                                                            22,
+                                                                      ),
+                                                                    )
+                                                                  : null,
+                                                        ),
+                                                        style:
+                                                            GoogleFonts.getFont(
+                                                          'Roboto',
+                                                          color: const Color(
+                                                              0x7F265784),
+                                                          fontSize: 18,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .multiline,
+                                                        validator: (val) {
+                                                          if (val!.isEmpty) {
+                                                            return 'Classes required';
+                                                          }
+
+                                                          return null;
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const Text(
+                                                    'Note: Add classes seperated by comma',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Poppins',
+                                                      color: Color(0xAFEA734D),
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                  const Align(
+                                                    alignment:
+                                                        AlignmentDirectional(
+                                                            -0.75, 0),
+                                                    child: Icon(
+                                                      Icons.add_circle_outline,
+                                                      color: Color(0xFFEA734D),
+                                                      size: 30,
+                                                    ),
+                                                  ),
+                                                ]),
+                                          _isLoading
+                                              ? CircularProgressIndicator()
+                                              : Padding(
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                          0, 20, 0, 0),
+                                                  child: ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      minimumSize:
+                                                          Size(120, 50),
+                                                      primary: colorSecondary,
+                                                      elevation: 6,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30.0),
+                                                      ),
+                                                    ),
+                                                    onPressed: _submit,
+                                                    child: const Text(
+                                                      'Register',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Poppins',
+                                                        color: Colors.white,
+                                                        fontSize: 18,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                          Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(0, 20, 0, 0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'Already have an account?',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Poppins',
+                                                    color:
+                                                        HexColor("#7f265784"),
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                                TextButton(
                                                   style: TextButton.styleFrom(
                                                     primary: Colors.white,
                                                   ),
@@ -513,362 +994,24 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
-                                                            const LogInWidget(),
+                                                            const LogInScreen(),
                                                       ),
                                                     );
                                                   },
-                                                   child: Text(
-                                                      'Sign In',
-                                                      style: TextStyle(
-                                                        fontFamily: 'Poppins',
-                                                        color: colorSecondary,
-                                                        fontSize: 16,
-                                                      ),
+                                                  child: Text(
+                                                    'Sign In',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Poppins',
+                                                      color: colorSecondary,
+                                                      fontSize: 16,
                                                     ),
-                                                 
+                                                  ),
                                                 ),
                                               ],
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            Align(
-                                              alignment:
-                                                  const AlignmentDirectional(0, 0),
-                                              child: Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(35, 20, 35, 0),
-                                                child: TextFormField(
-                                                  onChanged: (_) =>
-                                                      EasyDebounce.debounce(
-                                                    'textController5',
-                                                    const Duration(
-                                                        milliseconds: 2000),
-                                                    () => setState(() {}),
-                                                  ),
-                                                  controller: textController5,
-                                                  obscureText: false,
-                                                  decoration: InputDecoration(
-                                                    hintText: 'Full Name',
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: const BorderSide(
-                                                        color:
-                                                            Color(0x3F265784),
-                                                        width: 3,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              25),
-                                                    ),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: const BorderSide(
-                                                        color:
-                                                            Color(0x3F265784),
-                                                        width: 3,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              25),
-                                                    ),
-                                                    prefixIcon: const Icon(
-                                                      Icons
-                                                          .person_outline_rounded,
-                                                      color: Color(0xFF265784),
-                                                    ),
-                                                    suffixIcon: textController5
-                                                            .text.isNotEmpty
-                                                        ? InkWell(
-                                                            onTap: () =>
-                                                                setState(
-                                                              () =>
-                                                                  textController5
-                                                                      .clear(),
-                                                            ),
-                                                            child: const Icon(
-                                                              Icons.clear,
-                                                              color: Color(
-                                                                  0xFF265784),
-                                                              size: 22,
-                                                            ),
-                                                          )
-                                                        : null,
-                                                  ),
-                                                  style: GoogleFonts.getFont(
-                                                    'Roboto',
-                                                    color: const Color(0x7F265784),
-                                                    fontSize: 18,
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                  keyboardType:
-                                                      TextInputType.name,
-                                                  validator: (val) {
-                                                    if (val!.isEmpty) {
-                                                      return 'FullName required';
-                                                    }
-
-                                                    return null;
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Align(
-                                          alignment: const AlignmentDirectional(0, 0),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    35, 35, 35, 0),
-                                            child: TextFormField(
-                                              onChanged: (_) =>
-                                                  EasyDebounce.debounce(
-                                                'textController6',
-                                                const Duration(milliseconds: 2000),
-                                                () => setState(() {}),
-                                              ),
-                                              controller: textController6,
-                                              obscureText: false,
-                                              decoration: InputDecoration(
-                                                hintText: 'Subject 1',
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: const BorderSide(
-                                                    color: Color(0x3F265784),
-                                                    width: 3,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(25),
-                                                ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: const BorderSide(
-                                                    color: Color(0x3F265784),
-                                                    width: 3,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(25),
-                                                ),
-                                                prefixIcon: const Icon(
-                                                  Icons.subject,
-                                                  color: Color(0xFF265784),
-                                                ),
-                                                suffixIcon: textController6
-                                                        .text.isNotEmpty
-                                                    ? InkWell(
-                                                        onTap: () => setState(
-                                                          () => textController6
-                                                              .clear(),
-                                                        ),
-                                                        child: const Icon(
-                                                          Icons.clear,
-                                                          color:
-                                                              Color(0xFF265784),
-                                                          size: 22,
-                                                        ),
-                                                      )
-                                                    : null,
-                                              ),
-                                              style: GoogleFonts.getFont(
-                                                'Roboto',
-                                                color: const Color(0x7F265784),
-                                                fontSize: 18,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                              keyboardType: TextInputType.name,
-                                              validator: (val) {
-                                                if (val!.isEmpty) {
-                                                  return 'Subject required';
-                                                }
-
-                                                return null;
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                        Align(
-                                          alignment: const AlignmentDirectional(0, 0),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    35, 25, 35, 0),
-                                            child: TextFormField(
-                                              onChanged: (_) =>
-                                                  EasyDebounce.debounce(
-                                                'textController7',
-                                                const Duration(milliseconds: 2000),
-                                                () => setState(() {}),
-                                              ),
-                                              controller: textController7,
-                                              obscureText: false,
-                                              decoration: InputDecoration(
-                                                hintText:
-                                                    'Classes for Subject 1',
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: const BorderSide(
-                                                    color: const Color(0x3F265784),
-                                                    width: 3,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(25),
-                                                ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: const BorderSide(
-                                                    color: const Color(0x3F265784),
-                                                    width: 3,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(25),
-                                                ),
-                                                prefixIcon: const Icon(
-                                                  Icons.person_outline_rounded,
-                                                  color: const Color(0xFF265784),
-                                                ),
-                                                suffixIcon: textController7
-                                                        .text.isNotEmpty
-                                                    ? InkWell(
-                                                        onTap: () => setState(
-                                                          () => textController7
-                                                              .clear(),
-                                                        ),
-                                                        child: const Icon(
-                                                          Icons.clear,
-                                                          color:
-                                                              Color(0xFF265784),
-                                                          size: 22,
-                                                        ),
-                                                      )
-                                                    : null,
-                                              ),
-                                              style: GoogleFonts.getFont(
-                                                'Roboto',
-                                                color: const Color(0x7F265784),
-                                                fontSize: 18,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                              keyboardType:
-                                                  TextInputType.multiline,
-                                              validator: (val) {
-                                                if (val!.isEmpty) {
-                                                  return 'Classes required';
-                                                }
-
-                                                return null;
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                        const Text(
-                                          'Note: Add classes seperated by comma',
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            color: Color(0xAFEA734D),
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                        const Align(
-                                          alignment:
-                                              AlignmentDirectional(-0.75, 0),
-                                          child: Icon(
-                                            Icons.add_circle_outline,
-                                            color: Color(0xFFEA734D),
-                                            size: 30,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0, 20, 0, 0),
-                                          child:ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              minimumSize: Size(120, 50),
-                                              primary: colorSecondary,
-                                              elevation: 6,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(30.0),
-                                    ),
-                                            ),
-                                            onPressed: () async {
-                                              await Navigator.push(
-                                                context,
-                                                PageTransition(
-                                                  type: PageTransitionType.fade,
-                                                  duration:
-                                                      const Duration(milliseconds: 0),
-                                                  reverseDuration:
-                                                      const Duration(milliseconds: 0),
-                                                  child: const DashboardWidget(), //Text("DashBoard Called") 
-                                                ),
-                                              );
-                                            },
-                                            child: const Text(
-                                              'Register',
-                                              style: TextStyle(
-                                                fontFamily: 'Poppins',
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0, 20, 0, 0),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                'Already have an account?',
-                                                style:
-                                                    TextStyle(
-                                                      fontFamily: 'Poppins',
-                                                      color: HexColor("#7f265784"),
-                                                      fontSize: 16,
-                                                    ),
-                                              ),
-                                             TextButton(
-                                                style: TextButton.styleFrom(
-                                                  primary: Colors.white,
-                                                ),
-                                                onPressed: () async {
-                                                  await Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          const LogInWidget(),
-                                                    ),
-                                                  );
-                                                },
-                                                child: Text(
-                                                      'Sign In',
-                                                      style: TextStyle(
-                                                        fontFamily: 'Poppins',
-                                                        color: colorSecondary,
-                                                        fontSize: 16,
-                                                      ),
-                                                    ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
                                     ),
                                   ],
                                 ),

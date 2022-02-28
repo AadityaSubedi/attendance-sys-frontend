@@ -91,7 +91,7 @@ class _StudentInfoWidgetState extends State<StudentInfoWidget> {
                                 await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => LogInWidget(),
+                                    builder: (context) => LogInScreen(),
                                   ),
                                 );
                                 ;

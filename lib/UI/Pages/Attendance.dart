@@ -78,7 +78,7 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
                                 await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => LogInWidget(),
+                                    builder: (context) => LogInScreen(),
                                   ),
                                 );
                                 ;

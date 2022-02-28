@@ -1,4 +1,3 @@
-
 import 'package:attendance_sys/UI/Pages/Dashboard.dart';
 import 'package:attendance_sys/UI/Pages/Register.dart';
 import 'package:attendance_sys/main.dart';
@@ -10,14 +9,15 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LogInWidget extends StatefulWidget {
-  const LogInWidget({Key? key}) : super(key: key);
+class LogInScreen extends StatefulWidget {
+  const LogInScreen({Key? key}) : super(key: key);
+  static const routeName = "/login";
 
   @override
-  _LogInWidgetState createState() => _LogInWidgetState();
+  _LogInScreenState createState() => _LogInScreenState();
 }
 
-class _LogInWidgetState extends State<LogInWidget> {
+class _LogInScreenState extends State<LogInScreen> {
   late TextEditingController textController1;
   late TextEditingController textController2;
   late bool passwordVisibility;
@@ -50,7 +50,7 @@ class _LogInWidgetState extends State<LogInWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                 child: Text(
                   'Smart \nAttendance',
-                  style:TextStyle(
+                  style: TextStyle(
                     fontFamily: 'Poppins',
                     color: Colors.white,
                     fontSize: 30,
@@ -65,11 +65,9 @@ class _LogInWidgetState extends State<LogInWidget> {
                   borderRadius: BorderRadius.circular(0),
                   child: Image.asset(
                     'assets/images/2123.png',
-                    
                     width: MediaQuery.of(context).size.width * 0.25,
                     height: MediaQuery.of(context).size.height * 0.4,
                     fit: BoxFit.contain,
-                    
                   ),
                 ),
               ),
@@ -125,8 +123,8 @@ class _LogInWidgetState extends State<LogInWidget> {
                         Align(
                           alignment: const AlignmentDirectional(-0.85, -0.2),
                           child: Padding(
-                            padding:
-                                const EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                10, 10, 0, 0),
                             child: AutoSizeText(
                               'Welcome Back!',
                               style: GoogleFonts.getFont(
@@ -140,8 +138,8 @@ class _LogInWidgetState extends State<LogInWidget> {
                         Align(
                           alignment: const AlignmentDirectional(0, -0.5),
                           child: Padding(
-                            padding:
-                                const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 20, 0, 0),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: Image.asset(
@@ -158,7 +156,8 @@ class _LogInWidgetState extends State<LogInWidget> {
                   Align(
                     alignment: const AlignmentDirectional(0, 0),
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(35, 20, 35, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(35, 20, 35, 0),
                       child: TextFormField(
                         onChanged: (_) => EasyDebounce.debounce(
                           'textController1',
@@ -220,7 +219,8 @@ class _LogInWidgetState extends State<LogInWidget> {
                   Align(
                     alignment: const AlignmentDirectional(0, 0),
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(35, 20, 35, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(35, 20, 35, 0),
                       child: TextFormField(
                         controller: textController2,
                         obscureText: !passwordVisibility,
@@ -278,16 +278,15 @@ class _LogInWidgetState extends State<LogInWidget> {
                   ),
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                    child:ElevatedButton(
-                      
+                    child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(120, 50),
                         primary: colorSecondary,
                         elevation: 6,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
-               ),
                         ),
+                      ),
                       onPressed: () async {
                         await Navigator.push(
                           context,
@@ -295,14 +294,17 @@ class _LogInWidgetState extends State<LogInWidget> {
                             type: PageTransitionType.fade,
                             duration: const Duration(milliseconds: 0),
                             reverseDuration: const Duration(milliseconds: 0),
-                            child: const DashboardWidget(),//Text("DashBoard Called")
+                            child:
+                                const DashboardWidget(), //Text("DashBoard Called")
                           ),
                         );
                       },
-                      child: const Text('LogIn',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),),
+                      child: const Text(
+                        'LogIn',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
                     ),
                   ),
                   Padding(
@@ -320,27 +322,23 @@ class _LogInWidgetState extends State<LogInWidget> {
                             fontSize: 16,
                           ),
                         ),
-                       TextButton(
+                        TextButton(
                           style: ElevatedButton.styleFrom(
                             primary: Colors.white,
                           ),
-                          onPressed: () async {
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const RegisterWidget(),
-                              ),
-                            );
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacementNamed(RegisterScreen.routeName);
                           },
                           child: Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: colorSecondary,
-                            fontSize: 16,
+                            'Sign Up',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: colorSecondary,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
-                       ),
                       ],
                     ),
                   ),

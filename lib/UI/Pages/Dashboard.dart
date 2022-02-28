@@ -88,16 +88,16 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                     ),
                   ),
                 ),
-                // Align(
-                //   alignment: const AlignmentDirectional(0.95, 0),
-                //   child: Container(
-                //     width: MediaQuery.of(context).size.width * 0.2,
-                //     height: MediaQuery.of(context).size.height * 0.015,
-                //     decoration: const BoxDecoration(
-                //       color: Color(0xFF265784),
-                //     ),
-                //   ),
-                // ),
+                Align(
+                  alignment: const AlignmentDirectional(0.95, 0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.015,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF265784),
+                    ),
+                  ),
+                ),
                 Align(
                   alignment: Alignment.centerRight,
                   // const AlignmentDirectional(0.85, 0),
@@ -120,7 +120,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                   await Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const LogInWidget(),
+                                      builder: (context) => const LogInScreen(),
                                     ),
                                   );
                                   ;
