@@ -33,7 +33,18 @@ class Auth with ChangeNotifier {
       request.fields["subjects"] = jsonEncode(data["subjects"]);
       var response = await request.send();
       var body = await response.stream.bytesToString();
-      print(body);
+      var decodeBody = json.decode(body);
+      if (response.statusCode != 200) {
+        throw decodeBody["message"];
+      }
+      var res_data = decodeBody["data"];
+      _token = res_data["access_token"];
+      // print(body);
+      // print(_token);
+      // the  token expiry time is set to default 24 hours in backend
+      _expiryDate = DateTime.now().add(Duration(hours: 24));
+      // print(_expiryDate);
+      notifyListeners();
     } catch (error) {
       throw error;
     }
@@ -48,14 +59,18 @@ class Auth with ChangeNotifier {
           body: json.encode(data));
       var body = json.decode(response.body);
       if (response.statusCode != 200) {
-        throw json.decode(response.body)["message"];
+        throw body["message"];
       }
-      _token = body["access_token"];
+      var res_data = body["data"];
+      _token = res_data["access_token"];
+      // print(body);
+      // print(_token);
       // the  token expiry time is set to default 24 hours in backend
       _expiryDate = DateTime.now().add(Duration(hours: 24));
+      // print(_expiryDate);
+      notifyListeners();
     } catch (error) {
       rethrow;
-      
     }
   }
 }

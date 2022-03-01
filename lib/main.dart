@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: Consumer<Auth>(
-        builder: (context, auth, _) => MaterialApp(
+        builder: (context, auth, _,) => MaterialApp(
             title: 'Attendance system',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(

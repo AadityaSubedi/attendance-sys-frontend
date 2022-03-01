@@ -15,6 +15,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth.dart';
+import '../../widgets/dialog.dart';
 import '../../widgets/subjects.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -60,7 +61,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Auth>(context, listen: false).register(_registerData);
+    try {
+      await Provider.of<Auth>(context, listen: false).register(_registerData);
+      Navigator.popAndPushNamed(context, "/");
+    } catch (error) {
+      showErrorDialog(error as String, context);
+    }
     setState(() {
       _isLoading = false;
     });
