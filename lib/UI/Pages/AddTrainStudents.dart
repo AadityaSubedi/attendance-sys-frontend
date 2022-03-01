@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:attendance_sys/UI/Pages/Dashboard.dart';
 import 'package:attendance_sys/UI/Pages/LogIn.dart';
+import 'package:attendance_sys/function.dart';
 import 'package:attendance_sys/main.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/foundation.dart';
@@ -47,13 +48,26 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
 
   final ImagePicker _picker = ImagePicker();
 
-  List allImages = [];
+  //List allImages = [];
+  List imagePaths = [];
+  List detectedImages = [];
 
   void pickImages() async {
     final List<XFile>? images = await _picker.pickMultiImage();
     if (images != []) {
       //allImages.removeLast();
-      allImages.addAll(images!);
+      images!.forEach((image) => {imagePaths.add(image.path)});
+      print(imagePaths);
+      //allImages.addAll(images);
+      const url = 'http://127.0.0.1:5000/train/check';
+      try {
+        List detected = await uploadImage(imagePaths, url);
+        if (detected != []) {
+          detectedImages.addAll(detected);
+        }
+      } catch (err) {
+        print(err);
+      }
     }
     setState(() {});
   }
@@ -334,32 +348,42 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                           childAspectRatio: 1,
                         ),
                         scrollDirection: Axis.vertical,
-                        itemCount: allImages.length + 1,
+                        // itemCount: allImages.length + 1,
+                        itemCount: detectedImages.length + 1,
                         itemBuilder: (BuildContext context, int index) {
                           return ClipRRect(
                               borderRadius: BorderRadius.circular(10),
-                              child: index == allImages.length
+                              child: index == detectedImages.length
                                   ? CustomIconButton(onPress: pickImages)
                                   : Stack(
                                       fit: StackFit.expand,
                                       children: [
-                                        (kIsWeb
-                                            ? Image.network(
-                                                allImages[index].path,
-                                                fit: BoxFit.cover,
-                                              )
-                                            : Image.file(
-                                                File(allImages[index].path),
-                                                fit: BoxFit.cover,
-                                              )),
+                                        Image.network(
+                                          detectedImages[index].path,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        // (kIsWeb
+                                        //     ? Image.network(
+                                        //         allImages[index].path,
+                                        //         fit: BoxFit.cover,
+                                        //       )
+                                        //     : Image.file(
+                                        //         File(allImages[index].path),
+                                        //         fit: BoxFit.cover,
+                                        //       )),
                                         Positioned(
-                                          right: -6,
-                                          top: -6,
+                                          right: 0,
+                                          top: 0,
                                           child: Container(
+                                              color: Color.fromRGBO(
+                                                  255, 255, 244, 0.7),
+                                              height: 25,
+                                              width: 25,
                                               child: IconButton(
                                                   padding: EdgeInsets.zero,
                                                   onPressed: () {
-                                                    allImages.removeAt(index);
+                                                    detectedImages
+                                                        .removeAt(index);
                                                     setState(() {});
                                                   },
                                                   iconSize: 18.0,
@@ -368,47 +392,6 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                                         ),
                                       ],
                                     ));
-
-                          // index == allImages.length
-                          // ? CustomIconButton(onPress: pickImages)
-                          // : kIsWeb
-                          // ? Image.network(
-                          //         allImages[index].path,
-                          //         fit: BoxFit.cover,
-                          //       )
-                          // : Image.file(
-                          //         File(allImages[index].path),
-                          //         fit: BoxFit.cover,
-                          //       )
-
-                          // child: allImages[index].runtimeType == XFile
-                          //     ? Image.file(
-                          //         File(allImages[index].path),
-                          //         fit: BoxFit.cover,
-                          //       )
-                          //     : allImages[index],
-                          //);
-                          // Ink(
-                          //     color: Color(0xFF265784),
-                          //     child: IconButton(
-                          //       hoverColor: Colors.transparent,
-                          //       // borderWidth: 1,
-                          //       // buttonSize: 60,
-                          //       icon: Icon(
-                          //         Icons.add_circle,
-                          //         color: Color(0xFFEA734D),
-                          //         size: 60,
-                          //       ),
-                          //       onPressed: () => pickImages(),
-                          //       // async {
-                          //       //   await Navigator.push(
-                          //       //     context,
-                          //       //     MaterialPageRoute(
-                          //       //       builder: (context) => DashboardWidget(),
-                          //       //     ),
-                          //       //   );
-                          //       // },
-                          //     )),
                         }),
                   ),
                 ),
@@ -417,22 +400,28 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                      child: ElevatedButton(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(
+                              0, 20, 0, 20),
+                      child:ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(150, 50),
+                          primary: colorSecondary,
+                          elevation: 6,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ),
                         onPressed: () async {
                           await Navigator.push(
                             context,
                             PageTransition(
                               type: PageTransitionType.fade,
-                              duration: Duration(milliseconds: 0),
-                              reverseDuration: Duration(milliseconds: 0),
-                              child: DashboardWidget(),
-                            ),
-                          );
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DashboardWidget(),
+                              duration:
+                                  const Duration(milliseconds: 0),
+                              reverseDuration:
+                                  const Duration(milliseconds: 0),
+                              child: const DashboardWidget(), //Text("DashBoard Called") 
                             ),
                           );
                         },
@@ -447,22 +436,28 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                      child: ElevatedButton(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(
+                              0, 20, 0, 20),
+                      child:ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(150, 50),
+                          primary: colorSecondary,
+                          elevation: 6,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ),
                         onPressed: () async {
                           await Navigator.push(
                             context,
                             PageTransition(
                               type: PageTransitionType.fade,
-                              duration: Duration(milliseconds: 0),
-                              reverseDuration: Duration(milliseconds: 0),
-                              child: DashboardWidget(),
-                            ),
-                          );
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DashboardWidget(),
+                              duration:
+                                  const Duration(milliseconds: 0),
+                              reverseDuration:
+                                  const Duration(milliseconds: 0),
+                              child: const DashboardWidget(), //Text("DashBoard Called") 
                             ),
                           );
                         },

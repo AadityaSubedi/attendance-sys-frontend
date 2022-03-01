@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -37,6 +38,25 @@ fetchData(String url, Map<String, Object?> body, String? method) async {
     //   'Content-Type': 'application/json; charset=UTF-8',
     // },);
 
+  } catch (error) {
+    return error;
+  }
+}
+
+uploadImage(filepaths, url) async {
+  try {
+    print('************************************');
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+    filepaths.forEach((filepath) async => {
+          // request.files.add(await http.MultipartFile.fromBytes(
+          //     'images', File(filepath).readAsBytesSync(),
+          //     filename: filepath.split("/").last))
+          request.files.add(await http.MultipartFile.fromPath('images', filepath))
+        });
+    print('---------------------------------------------');
+    var res = await request.send();
+    print(res);
+    return res;
   } catch (error) {
     return error;
   }
