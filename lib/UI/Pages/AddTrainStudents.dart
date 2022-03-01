@@ -52,10 +52,9 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
   void pickImages() async {
     final List<XFile>? images = await _picker.pickMultiImage();
     if (images != []) {
-      allImages.removeLast();
+      //allImages.removeLast();
       allImages.addAll(images!);
     }
-    print(kIsWeb);
     setState(() {});
   }
 
@@ -69,7 +68,7 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
   @override
   Widget build(BuildContext context) {
     // setState(() {
-    allImages.add(CustomIconButton(onPress: pickImages));
+    //allImages.add(CustomIconButton(onPress: pickImages));
     // });
     return Scaffold(
       key: scaffoldKey,
@@ -330,22 +329,65 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
-                          crossAxisSpacing: 5,
-                          mainAxisSpacing: 5,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
                           childAspectRatio: 1,
                         ),
                         scrollDirection: Axis.vertical,
-                        itemCount: allImages.length,
+                        itemCount: allImages.length + 1,
                         itemBuilder: (BuildContext context, int index) {
                           return ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: allImages[index].runtimeType == XFile
-                                ? Image.file(
-                                    File(allImages[index].path),
-                                    fit: BoxFit.cover,
-                                  )
-                                : allImages[index],
-                          );
+                              borderRadius: BorderRadius.circular(10),
+                              child: index == allImages.length
+                                  ? CustomIconButton(onPress: pickImages)
+                                  : Stack(
+                                      fit: StackFit.expand,
+                                      children: [
+                                        (kIsWeb
+                                            ? Image.network(
+                                                allImages[index].path,
+                                                fit: BoxFit.cover,
+                                              )
+                                            : Image.file(
+                                                File(allImages[index].path),
+                                                fit: BoxFit.cover,
+                                              )),
+                                        Positioned(
+                                          right: -6,
+                                          top: -6,
+                                          child: Container(
+                                              child: IconButton(
+                                                  padding: EdgeInsets.zero,
+                                                  onPressed: () {
+                                                    allImages.removeAt(index);
+                                                    setState(() {});
+                                                  },
+                                                  iconSize: 18.0,
+                                                  icon: Icon(Icons.delete),
+                                                  color: Colors.red)),
+                                        ),
+                                      ],
+                                    ));
+
+                          // index == allImages.length
+                          // ? CustomIconButton(onPress: pickImages)
+                          // : kIsWeb
+                          // ? Image.network(
+                          //         allImages[index].path,
+                          //         fit: BoxFit.cover,
+                          //       )
+                          // : Image.file(
+                          //         File(allImages[index].path),
+                          //         fit: BoxFit.cover,
+                          //       )
+
+                          // child: allImages[index].runtimeType == XFile
+                          //     ? Image.file(
+                          //         File(allImages[index].path),
+                          //         fit: BoxFit.cover,
+                          //       )
+                          //     : allImages[index],
+                          //);
                           // Ink(
                           //     color: Color(0xFF265784),
                           //     child: IconButton(
