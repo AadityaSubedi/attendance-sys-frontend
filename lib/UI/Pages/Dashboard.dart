@@ -411,7 +411,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                             child: InkWell(
                               onTap: () async {
                                 const url =
-                                    'http://192.168.1.71:5000/api/getattendancelist';
+                                    'http://192.168.1.45:5000/api/getattendancelist';
                                 var body = {
                                   "classname": classsChoose,
                                   "subjectname": subChoose
@@ -513,7 +513,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                             child: InkWell(
                               onTap: () async {
                                 const url =
-                                    'http://192.168.1.71:5000/api/getinfo';
+                                    'http://192.168.1.45:5000/api/getinfo';
                                 var body = {
                                   "classname": classsChoose,
                                   "subjectname": subChoose
