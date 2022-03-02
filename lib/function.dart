@@ -22,72 +22,29 @@ fetchData(String url, Map<String, Object?> body, String? method) async {
       var data = jsonDecode(response.body)["data"];
       return data;
     }
-
-    // Uri uri = Uri.parse(url);
-    // final newURI = uri.replace(queryParameters: body);
-    // final header = <String, String>{
-    //   'Content-Type': 'application/json; charset=UTF-8',
-    // };
-    // final response = await http.post(newURI, headers: header, body: body);
-
-    // var data = jsonEncode({
-    //   'classname': className,
-    //   'subjectname': subName,
-    // });
-    // final response = await http.post(Uri.parse(url), body: data,  headers: <String, String>{
-    //   'Content-Type': 'application/json; charset=UTF-8',
-    // },);
-
   } catch (error) {
     return error;
   }
 }
 
-uploadImage(filepaths, url) async {
+uploadImage(filepaths, url, {label = null}) async {
   try {
     var request = http.MultipartRequest('POST', Uri.parse(url));
     filepaths.forEach((filepath) async => {
           request.files.add(await http.MultipartFile.fromBytes(
               'images', File(filepath).readAsBytesSync(),
-              filename: filepath.split("/").last))
+              filename: filepath))
           // request.files
           //     .add(await http.MultipartFile.fromPath('images', filepath))
         });
+    request.fields['label'] = label;
     var res = await request.send();
     var body = jsonDecode(await res.stream.bytesToString());
 
     print(body);
-    return body;
+    return body['data'];
   } catch (error) {
     print(error);
     throw error;
   }
 }
-
-// uploadImage(filepaths, url) async {
-//   print('************************************');
-//   List files = [];
-//   for (int i = 0; i < filepaths.length; i++) {
-//     var file = await File(filepaths[i]);
-//     var base64Image = base64Encode(file.readAsBytesSync());
-//     files.add(base64Image);
-//     var data = {
-//       "images": files,
-//     };
-//     try {
-//       var response = await http.post(Uri.parse(url), body: data);
-//       print('-********************--**---*-*-*');
-//       var body = jsonDecode(response.body);
-//       print(body);
-//       if (body['msg'] == "Success!") {
-//         print('posted successfully!');
-//         return body;
-//       } else {
-//         print(body['msg']);
-//       }
-//     } catch (e) {
-//       print(e);
-//       throw e;
-//     }
-//   }
-// }

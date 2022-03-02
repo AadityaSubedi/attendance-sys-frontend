@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:http/http.dart' as http;
 
 class CustomIconButton extends StatelessWidget {
   CustomIconButton({@required this.onPress});
@@ -49,27 +50,53 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
   final ImagePicker _picker = ImagePicker();
 
   //List allImages = [];
-  List imagePaths = [];
+  Map<String, dynamic> faceImages = {};
   List detectedImages = [];
 
   void pickImages() async {
+    List imagePaths = [];
     final List<XFile>? images = await _picker.pickMultiImage();
     if (images != []) {
       //allImages.removeLast();
+      // images!.forEach((image) {
+      //   faceImages[image.path] = null;
+      // });
       images!.forEach((image) => {imagePaths.add(image.path)});
-      print(imagePaths);
       //allImages.addAll(images);
-      const url = 'http://192.168.1.41:5000/train/check';
+      const url = 'http://192.168.1.66:5000/train/check';
       try {
+        //faceImages.forEach((key, _) => imagePaths.add(key));
         Map<String, dynamic> detected = await uploadImage(imagePaths, url);
-        print(detected);
-        print(detected.values.toList());
-        detectedImages.addAll(detected.values.toList());
+        faceImages = {...faceImages, ...detected};
+        detectedImages = faceImages.keys.toList();
+        print(faceImages);
+        print(detectedImages);
+        //detectedImages.addAll(detected.values.toList());
       } catch (err) {
         print(err);
       }
     }
     setState(() {});
+  }
+
+  void onUpload(label) async {
+    try {
+      const url = 'http://192.168.1.66:5000/train/upload';
+      await uploadImage(detectedImages, url, label: label);
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  void onTrain() async {
+    try {
+      const url = 'http://192.168.1.66:5000/train/start';
+      Uri uri = Uri.parse(url);
+      await http.get(uri);
+    }catch(err){
+      print(err);
+    }
+    
   }
 
   @override
@@ -339,62 +366,67 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                 Expanded(
                   child: Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
-                    child: GridView.builder(
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                          childAspectRatio: 1,
-                        ),
-                        scrollDirection: Axis.vertical,
-                        // itemCount: allImages.length + 1,
-                        itemCount: detectedImages.length + 1,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: index == detectedImages.length
-                                  ? CustomIconButton(onPress: pickImages)
-                                  : Stack(
-                                      fit: StackFit.expand,
-                                      children: [
-                                        Image.network(
-                                          "http://192.168.1.66:5000/face/${detectedImages[index]}",
-                                          
-                                          fit: BoxFit.cover,
-                                        ),
-                                        
-                                        // (kIsWeb
-                                        //     ? Image.network(
-                                        //         allImages[index].path,
-                                        //         fit: BoxFit.cover,
-                                        //       )
-                                        //     : Image.file(
-                                        //         File(allImages[index].path),
-                                        //         fit: BoxFit.cover,
-                                        //       )),
-                                        Positioned(
-                                          right: 0,
-                                          top: 0,
-                                          child: Container(
-                                              color: Color.fromRGBO(
-                                                  255, 255, 244, 0.7),
-                                              height: 25,
-                                              width: 25,
-                                              child: IconButton(
-                                                  padding: EdgeInsets.zero,
-                                                  onPressed: () {
-                                                    detectedImages
-                                                        .removeAt(index);
-                                                    setState(() {});
-                                                  },
-                                                  iconSize: 18.0,
-                                                  icon: Icon(Icons.delete),
-                                                  color: Colors.red)),
-                                        ),
-                                      ],
-                                    ));
-                        }),
+                    child: SingleChildScrollView(
+                      child: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                            childAspectRatio: 1,
+                          ),
+                          scrollDirection: Axis.vertical,
+                          // itemCount: allImages.length + 1,
+                          itemCount: detectedImages.length + 1,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: index == detectedImages.length
+                                    ? CustomIconButton(onPress: pickImages)
+                                    : Stack(
+                                        fit: StackFit.expand,
+                                        children: [
+                                          Image.network(
+                                            "http://192.168.1.66:5000/face/${faceImages[detectedImages[index]]}",
+                                            fit: BoxFit.cover,
+                                          ),
+                    
+                                          // (kIsWeb
+                                          //     ? Image.network(
+                                          //         allImages[index].path,
+                                          //         fit: BoxFit.cover,
+                                          //       )
+                                          //     : Image.file(
+                                          //         File(allImages[index].path),
+                                          //         fit: BoxFit.cover,
+                                          //       )),
+                                          Positioned(
+                                            right: 0,
+                                            top: 0,
+                                            child: Container(
+                                                color: Color.fromRGBO(
+                                                    255, 255, 244, 0.7),
+                                                height: 25,
+                                                width: 25,
+                                                child: IconButton(
+                                                    padding: EdgeInsets.zero,
+                                                    onPressed: () {
+                                                      faceImages.removeWhere((key,
+                                                              value) =>
+                                                          key ==
+                                                          detectedImages[index]);
+                                                      // detectedImages
+                                                      //     .removeAt(index);
+                                                      setState(() {});
+                                                    },
+                                                    iconSize: 18.0,
+                                                    icon: Icon(Icons.delete),
+                                                    color: Colors.red)),
+                                          ),
+                                        ],
+                                      ));
+                          }),
+                    ),
                   ),
                 ),
                 Row(
@@ -447,18 +479,7 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                             borderRadius: BorderRadius.circular(30.0),
                           ),
                         ),
-                        onPressed: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              duration: const Duration(milliseconds: 0),
-                              reverseDuration: const Duration(milliseconds: 0),
-                              child:
-                                  const DashboardWidget(), //Text("DashBoard Called")
-                            ),
-                          );
-                        },
+                        onPressed: () => onUpload(textController2.text),
                         child: const Text(
                           'Train',
                           style: TextStyle(
