@@ -48,16 +48,48 @@ uploadImage(filepaths, url) async {
     print('************************************');
     var request = http.MultipartRequest('POST', Uri.parse(url));
     filepaths.forEach((filepath) async => {
-          // request.files.add(await http.MultipartFile.fromBytes(
-          //     'images', File(filepath).readAsBytesSync(),
-          //     filename: filepath.split("/").last))
-          request.files.add(await http.MultipartFile.fromPath('images', filepath))
+          request.files.add(await http.MultipartFile.fromBytes(
+              'images', File(filepath).readAsBytesSync(),
+              filename: filepath.split("/").last))
+          // request.files
+          //     .add(await http.MultipartFile.fromPath('images', filepath))
         });
     print('---------------------------------------------');
     var res = await request.send();
-    print(res);
-    return res;
+    var body = jsonDecode(await res.stream.bytesToString());
+
+    print(body);
+    return body;
   } catch (error) {
-    return error;
+    print(error);
+    throw error;
   }
 }
+
+// uploadImage(filepaths, url) async {
+//   print('************************************');
+//   List files = [];
+//   for (int i = 0; i < filepaths.length; i++) {
+//     var file = await File(filepaths[i]);
+//     var base64Image = base64Encode(file.readAsBytesSync());
+//     files.add(base64Image);
+//     var data = {
+//       "images": files,
+//     };
+//     try {
+//       var response = await http.post(Uri.parse(url), body: data);
+//       print('-********************--**---*-*-*');
+//       var body = jsonDecode(response.body);
+//       print(body);
+//       if (body['msg'] == "Success!") {
+//         print('posted successfully!');
+//         return body;
+//       } else {
+//         print(body['msg']);
+//       }
+//     } catch (e) {
+//       print(e);
+//       throw e;
+//     }
+//   }
+// }
