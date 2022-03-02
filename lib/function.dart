@@ -1,12 +1,16 @@
 import 'dart:convert';
 
+
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 
-fetchData(String url, Map<String, Object?> body, String? method) async {
+
+fetchData(String url, {Map<String, Object?>? body, String? method, String? token}) async {
   try {
     var header = <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $token'
     };
     if (method == 'POST') {
       Uri uri = Uri.parse(url);
