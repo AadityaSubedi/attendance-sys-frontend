@@ -45,17 +45,20 @@ fetchData(String url, Map<String, Object?> body, String? method) async {
 
 uploadImage(filepaths, url) async {
   try {
-    print('************************************');
     var request = http.MultipartRequest('POST', Uri.parse(url));
     filepaths.forEach((filepath) async => {
+<<<<<<< HEAD
           request.files.add(await http.MultipartFile.fromBytes(
               'images', File(filepath).readAsBytesSync(),
               filename: filepath.split("/").last))
           // request.files
           //     .add(await http.MultipartFile.fromPath('images', filepath))
+=======
+          request.files.add(await http.MultipartFile.fromPath('images', filepath,filename: filepath.split("/").last))
+>>>>>>> 3e9d0d54a3e2ccd8fb227d8d43f234835337f7c4
         });
-    print('---------------------------------------------');
     var res = await request.send();
+<<<<<<< HEAD
     var body = jsonDecode(await res.stream.bytesToString());
 
     print(body);
@@ -63,6 +66,13 @@ uploadImage(filepaths, url) async {
   } catch (error) {
     print(error);
     throw error;
+=======
+    var body =jsonDecode(await res.stream.bytesToString());
+    print(body["data"]);
+    return body["data"];
+  } catch (error) {
+    rethrow;
+>>>>>>> 3e9d0d54a3e2ccd8fb227d8d43f234835337f7c4
   }
 }
 

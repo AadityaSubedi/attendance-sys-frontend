@@ -347,7 +347,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                             onPressed: () async {
                                               const url =
                                                   // use localhost:
-                                                  'http://192.168.1.71:5000/api/takeattendance';
+                                                  'http://192.168.1.66:5000/api/takeattendance';
 
                                               var body = {
                                                 "classname": classsChoose,

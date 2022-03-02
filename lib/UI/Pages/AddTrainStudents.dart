@@ -61,10 +61,10 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
       //allImages.addAll(images);
       const url = 'http://192.168.1.66:5000/train/check';
       try {
-        List detected = await uploadImage(imagePaths, url);
-        if (detected != []) {
-          detectedImages.addAll(detected);
-        }
+        Map<String, dynamic> detected = await uploadImage(imagePaths, url);
+        print(detected);
+        print(detected.values.toList());
+        detectedImages.addAll(detected.values.toList());
       } catch (err) {
         print(err);
       }
@@ -359,9 +359,11 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                                       fit: StackFit.expand,
                                       children: [
                                         Image.network(
-                                          detectedImages[index].path,
+                                          "http://192.168.1.66:5000/face/${detectedImages[index]}",
+                                          
                                           fit: BoxFit.cover,
                                         ),
+                                        
                                         // (kIsWeb
                                         //     ? Image.network(
                                         //         allImages[index].path,
@@ -401,9 +403,8 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                   children: [
                     Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(
-                              0, 20, 0, 20),
-                      child:ElevatedButton(
+                          const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
+                      child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(150, 50),
                           primary: colorSecondary,
@@ -417,11 +418,10 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                             context,
                             PageTransition(
                               type: PageTransitionType.fade,
-                              duration:
-                                  const Duration(milliseconds: 0),
-                              reverseDuration:
-                                  const Duration(milliseconds: 0),
-                              child: const DashboardWidget(), //Text("DashBoard Called") 
+                              duration: const Duration(milliseconds: 0),
+                              reverseDuration: const Duration(milliseconds: 0),
+                              child:
+                                  const DashboardWidget(), //Text("DashBoard Called")
                             ),
                           );
                         },
@@ -437,9 +437,8 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                     ),
                     Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(
-                              0, 20, 0, 20),
-                      child:ElevatedButton(
+                          const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
+                      child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(150, 50),
                           primary: colorSecondary,
@@ -453,11 +452,10 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
                             context,
                             PageTransition(
                               type: PageTransitionType.fade,
-                              duration:
-                                  const Duration(milliseconds: 0),
-                              reverseDuration:
-                                  const Duration(milliseconds: 0),
-                              child: const DashboardWidget(), //Text("DashBoard Called") 
+                              duration: const Duration(milliseconds: 0),
+                              reverseDuration: const Duration(milliseconds: 0),
+                              child:
+                                  const DashboardWidget(), //Text("DashBoard Called")
                             ),
                           );
                         },
