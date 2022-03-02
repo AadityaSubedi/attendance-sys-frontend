@@ -1,46 +1,32 @@
 import 'dart:convert';
 
-
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
-
-fetchData(String url, {Map<String, Object?>? body, String? method, String? token}) async {
+fetchData(String url,
+    {Map<String, Object?>? body, String? method, String? token}) async {
   try {
+    var response;
     var header = <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer $token'
     };
     if (method == 'POST') {
       Uri uri = Uri.parse(url);
-      final response =
-          await http.post(uri, headers: header, body: jsonEncode(body));
+      response = await http.post(uri, headers: header, body: jsonEncode(body));
       var data = jsonDecode(response.body)["data"];
       return data;
     } else if (method == 'GET') {
       Uri uri = Uri.parse(url);
       final newURI = uri.replace(queryParameters: body);
-      final response = await http.get(newURI, headers: header);
-      var data = jsonDecode(response.body)["data"];
-      return data;
+      response = await http.get(newURI, headers: header);
     }
-
-    // Uri uri = Uri.parse(url);
-    // final newURI = uri.replace(queryParameters: body);
-    // final header = <String, String>{
-    //   'Content-Type': 'application/json; charset=UTF-8',
-    // };
-    // final response = await http.post(newURI, headers: header, body: body);
-
-    // var data = jsonEncode({
-    //   'classname': className,
-    //   'subjectname': subName,
-    // });
-    // final response = await http.post(Uri.parse(url), body: data,  headers: <String, String>{
-    //   'Content-Type': 'application/json; charset=UTF-8',
-    // },);
-
+    if (response.statusCode != 200) {
+      throw jsonDecode(response.body)["message"];
+    }
+    var data = jsonDecode(response.body)["data"];
+    return data;
   } catch (error) {
     return error;
   }

@@ -33,15 +33,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var _isInit = true;
   var _isLoading = false;
-  var _error;
+  String? _error;
+  String? _fullname;
 
-  Map<String, List> subjects = {};
-  List<String> classes = ['075BCTAB', '075BCTCD', '075BCEAB', '075BCECD'];
+  Map<String, dynamic> subjects = {};
   String? subChoose;
   String? classsChoose;
   // late final url = '';
   List<DropdownMenuItem<String>> getList(lists) {
     List<DropdownMenuItem<String>> dropdownItems = [];
+    // print(lists);
     for (String each in lists) {
       var newItem = DropdownMenuItem(
         child: Text(
@@ -66,13 +67,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
         _isLoading = true;
       });
       final token = Provider.of<Auth>(context).token;
-      // fetch classname and subject name
-      var data = await fetchData("${BACKEND_URL}/api/userinfo",
-          body: {}, method: "GET", token: token);
-      setState(() {
-        _isLoading = false;
-        subjects = data;
-      });
+      try {
+        // fetch classname and subject name
+        var data = await fetchData("${BACKEND_URL}/api/userinfo",
+            body: {}, method: "GET", token: token);
+
+        setState(() {
+          _fullname = data["name"];
+          subjects = data["subjects"];
+          _isLoading = false;
+        });
+      } catch (error) {
+        setState(() {
+          _isLoading = false;
+          _error = error as String;
+        });
+      }
 
       _isInit = false;
       super.didChangeDependencies();
@@ -226,11 +236,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                             Column(
                               mainAxisSize: MainAxisSize.max,
-                              children: const [
+                              children:  [
                                 Align(
                                   alignment: AlignmentDirectional(-0.6, 0),
                                   child: Text(
-                                    'Full Name Here',
+                                    "$_fullname",
                                     style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: Color(0xFF265784),
@@ -268,9 +278,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             onChanged: (String? newValue) {
                               setState(() {
                                 subChoose = newValue!;
+                                classsChoose = subChoose != null &&
+                                        classsChoose != null &&
+                                        subjects[subChoose]
+                                            .contains(classsChoose)
+                                    ? classsChoose
+                                    : null;
                               });
                             },
-                            items: getList(subjects),
+                            items: getList(subjects.keys.toList()),
                           ),
                         ),
                       ),
@@ -300,7 +316,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     classsChoose = newValue!;
                                   });
                                 },
-                                items: getList(classes)),
+                                items: getList(subChoose != null
+                                    ? subjects[subChoose]
+                                    : [])),
                           )),
                       Expanded(
                         child: Padding(
