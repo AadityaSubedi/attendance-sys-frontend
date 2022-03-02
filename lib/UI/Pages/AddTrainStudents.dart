@@ -59,7 +59,7 @@ class _AddTrainStudentWidgetState extends State<AddTrainStudentWidget> {
       images!.forEach((image) => {imagePaths.add(image.path)});
       print(imagePaths);
       //allImages.addAll(images);
-      const url = 'http://192.168.1.66:5000/train/check';
+      const url = 'http://192.168.1.41:5000/train/check';
       try {
         Map<String, dynamic> detected = await uploadImage(imagePaths, url);
         print(detected);
