@@ -7,11 +7,11 @@
 //import 'package:attendancesys_flutter/Screens/LogIn.dart';
 import 'dart:convert';
 
-import 'package:attendance_sys/UI/Pages/AddTrainStudents.dart';
-import 'package:attendance_sys/UI/Pages/AttendanceList.dart';
+// import 'package:attendance_sys/UI/Pages/AddTrainStudents.dart';
+// import 'package:attendance_sys/UI/Pages/AttendanceList.dart';
 import 'package:attendance_sys/UI/Pages/LogIn.dart';
-import 'package:attendance_sys/UI/Pages/StudentInfo.dart';
-import 'package:attendance_sys/UI/Pages/TakeAttendance.dart';
+// import 'package:attendance_sys/UI/Pages/StudentInfo.dart';
+// import 'package:attendance_sys/UI/Pages/TakeAttendance.dart';
 import 'package:attendance_sys/function.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,7 +20,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth.dart';
 import '../../constants.dart';
-import './StudentInfo.dart';
+import './TakeAttendance.dart';
+// import './StudentInfo.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -350,23 +351,74 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: InkWell(
-                                    onTap: () async {
-                                      const url =
-                                          // use localhost:
-                                          'http://127.0.0.1:5000/api/takeattendance';
+                                    onTap: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              scrollable: true,
+                                              content: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(4.0),
+                                                child: Form(
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      TextFormField(
+                                                        decoration:
+                                                            InputDecoration(
+                                                          labelText:
+                                                              'Attendance Time',
+                                                          icon:
+                                                              Icon(Icons.watch),
+                                                        ),
+                                                        onChanged:
+                                                            (String? newValue) {
+                                                          setState(() {
+                                                            attendanceTime =
+                                                                newValue!;
+                                                          });
+                                                        },
+                                                      ),
+                                                      TextFormField(
+                                                        decoration:
+                                                            InputDecoration(
+                                                          labelText:
+                                                              'Camera Source',
+                                                          icon: Icon(
+                                                              Icons.source),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              actions: [
+                                                RaisedButton(
+                                                  child: Text("Start"),
+                                                  onPressed: () async {
+                                                    const url =
+                                                        // use localhost:
+                                                        '$BACKEND_URL/api/takeattendance';
 
-                                      var body = {
-                                        "classname": classsChoose,
-                                        "subjectname": subChoose,
-                                        "time": 1
-                                      };
-                                      final token =
-                                          Provider.of<Auth>(context).token;
-
-                                      var data = await fetchData(url,
-                                          body: body,
-                                          method: 'POST',
-                                          token: token);
+                                                    var body = {
+                                                      "classname": classsChoose,
+                                                      "subjectname": subChoose,
+                                                      "time": attendanceTime,
+                                                    };
+                                                    var data = await fetchData(
+                                                        url,
+                                                        body: body,
+                                                        method: 'POST');
+                                                    Navigator.of(context).pop();
+                                                    Navigator.of(context)
+                                                        .pushReplacementNamed(
+                                                            TakeAttendanceScreen
+                                                                .routeName, arguments: body);
+                                                  },
+                                                )
+                                              ],
+                                            );
+                                          });
                                     },
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
@@ -409,7 +461,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   child: InkWell(
                                     onTap: () async {
                                       const url =
-                                          'http://192.168.1.41:5000/api/getattendancelist';
+                                          '$BACKEND_URL/api/getattendancelist';
                                       var body = {
                                         "classname": classsChoose,
                                         "subjectname": subChoose
@@ -420,15 +472,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           body: body,
                                           method: 'GET',
                                           token: token);
-
-                                      // await Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) =>
-                                      //         const AttendanceListScreen(),
-                                      //     // AttendanceListWidget(),
-                                      //   ),
-                                      // );
                                     },
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,

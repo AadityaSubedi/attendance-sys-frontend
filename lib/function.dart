@@ -15,8 +15,6 @@ fetchData(String url,
     if (method == 'POST') {
       Uri uri = Uri.parse(url);
       response = await http.post(uri, headers: header, body: jsonEncode(body));
-      var data = jsonDecode(response.body)["data"];
-      return data;
     } else if (method == 'GET') {
       Uri uri = Uri.parse(url);
       final newURI = uri.replace(queryParameters: body);

@@ -1,25 +1,59 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:attendance_sys/UI/Pages/Attendance.dart';
 import 'package:attendance_sys/UI/Pages/Dashboard.dart';
 import 'package:attendance_sys/UI/Pages/LogIn.dart';
-import 'package:attendance_sys/main.dart';
+import 'package:attendance_sys/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../providers/auth.dart';
+import '../../function.dart';
 
-class TakeAttendanceWidget extends StatefulWidget {
-  const TakeAttendanceWidget(
-      {Key? key,
-      required this.time})
-      : super(key: key);
+class TakeAttendanceScreen extends StatefulWidget {
+  const TakeAttendanceScreen({Key? key}) : super(key: key);
 
-  final String? time;
+  static const routeName = "/takeattendance";
+
+  // final Map<String, String?> body;
 
   @override
-  _TakeAttendanceWidgetState createState() => _TakeAttendanceWidgetState();
+  _TakeAttendanceScreenState createState() => _TakeAttendanceScreenState();
 }
 
-class _TakeAttendanceWidgetState extends State<TakeAttendanceWidget> {
+class _TakeAttendanceScreenState extends State<TakeAttendanceScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  var _isInit = true;
+  var _isLoading = false;
+  var _body;
+
+  String? _error;
+  @override
+  void didChangeDependencies() async {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      _body = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+      final token = Provider.of<Auth>(context).token;
+      try {
+        // fetch classname and subject name
+        var data = await fetchData("${BACKEND_URL}/api/takeattendance",
+            body: _body, method: "POST", token: token);
+
+        setState(() {
+          _isLoading = false;
+        });
+      } catch (error) {
+        setState(() {
+          _isLoading = false;
+          _error = error as String;
+        });
+      }
+
+      _isInit = false;
+      super.didChangeDependencies();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +116,6 @@ class _TakeAttendanceWidgetState extends State<TakeAttendanceWidget> {
                                     builder: (context) => LogInScreen(),
                                   ),
                                 );
-                                ;
                               },
                               child: Text('Yes'),
                             ),
@@ -105,12 +138,8 @@ class _TakeAttendanceWidgetState extends State<TakeAttendanceWidget> {
               alignment: AlignmentDirectional(0, 0.15),
               child: InkWell(
                 onTap: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DashboardScreen(),
-                    ),
-                  );
+                  await Navigator.of(context)
+                      .pushNamed(DashboardScreen.routeName);
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(0),
@@ -127,22 +156,24 @@ class _TakeAttendanceWidgetState extends State<TakeAttendanceWidget> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Image.network(
-                'http://192.168.1.66:5000/api/getstream/1',
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 1,
-                fit: BoxFit.fitWidth,
+      body: _isLoading
+          ? CircularProgressIndicator()
+          : SafeArea(
+              child: GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Image.network(
+                      '$BACKEND_URL/api/getstream/${double.parse("${_body["time"]}")}',
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 1,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

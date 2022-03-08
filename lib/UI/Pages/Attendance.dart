@@ -7,7 +7,7 @@ import 'package:attendance_sys/UI/Pages/LogIn.dart';
 import 'package:attendance_sys/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'AddTrainStudents.dart';
+
 
 class AttendanceWidget extends StatefulWidget {
   const AttendanceWidget({Key? key, required this.classname, required this.subjectname, required this.date, required this.attendance}) : super(key: key);
@@ -86,7 +86,7 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
                                     builder: (context) => LogInScreen(),
                                   ),
                                 );
-                                
+                                ;
                               },
                               child: Text('Yes'),
                             ),
@@ -109,12 +109,8 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
               alignment: AlignmentDirectional(0, 0.15),
               child: InkWell(
                 onTap: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DashboardScreen(),
-                    ),
-                  );
+                  await Navigator.of(context)
+                                .pushReplacementNamed(DashboardScreen.routeName);
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(0),

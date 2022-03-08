@@ -1,11 +1,13 @@
 import 'package:attendance_sys/UI/Pages/Dashboard.dart';
 import 'package:attendance_sys/UI/Pages/LogIn.dart';
+import 'package:attendance_sys/UI/Pages/TakeAttendance.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'UI/Pages/Register.dart';
 import 'package:provider/provider.dart';
 import 'providers/auth.dart';
 import 'UI/Pages/Dashboard.dart';
+import './UI/Pages/TakeAttendance.dart';
 
 Color colrorPrimary = HexColor('#265784');
 Color colorSecondary = HexColor("#ea734d");
@@ -48,6 +50,7 @@ class MyApp extends StatelessWidget {
               LogInScreen.routeName: (ctx) =>  LogInScreen(),
               RegisterScreen.routeName: (ctx) =>  RegisterScreen(),
               DashboardScreen.routeName: (ctx) =>  DashboardScreen(),
+              TakeAttendanceScreen.routeName: (ctx) =>  TakeAttendanceScreen(),
 
               // TODO: Add other routes too
             }),
