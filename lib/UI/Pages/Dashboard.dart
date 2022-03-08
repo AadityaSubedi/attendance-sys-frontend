@@ -7,9 +7,11 @@
 //import 'package:attendancesys_flutter/Screens/LogIn.dart';
 import 'dart:convert';
 
+import 'package:attendance_sys/UI/Pages/AddTrainStudents.dart';
 import 'package:attendance_sys/UI/Pages/AttendanceList.dart';
 import 'package:attendance_sys/UI/Pages/LogIn.dart';
 import 'package:attendance_sys/UI/Pages/StudentInfo.dart';
+import 'package:attendance_sys/UI/Pages/TakeAttendance.dart';
 import 'package:attendance_sys/function.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -18,6 +20,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth.dart';
 import '../../constants.dart';
+import './StudentInfo.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -39,6 +42,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Map<String, dynamic> subjects = {};
   String? subChoose;
   String? classsChoose;
+  String? attendanceTime;
   // late final url = '';
   List<DropdownMenuItem<String>> getList(lists) {
     List<DropdownMenuItem<String>> dropdownItems = [];
@@ -236,7 +240,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                             Column(
                               mainAxisSize: MainAxisSize.max,
-                              children:  [
+                              children: [
                                 Align(
                                   alignment: AlignmentDirectional(-0.6, 0),
                                   child: Text(
@@ -417,14 +421,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           method: 'GET',
                                           token: token);
 
-                                      await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const AttendanceListWidget(),
-                                          // AttendanceListWidget(),
-                                        ),
-                                      );
+                                      // await Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) =>
+                                      //         const AttendanceListScreen(),
+                                      //     // AttendanceListWidget(),
+                                      //   ),
+                                      // );
                                     },
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
@@ -501,14 +505,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ),
                                   child: InkWell(
                                     onTap: () async {
-                                      await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const StudentInfoWidget(),
-                                          //StudentInfoWidget(),
-                                        ),
-                                      );
+                                      // await Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) =>
+                                      //         const StudentInfoWidget(),
+                                      //     //StudentInfoWidget(),
+                                      //   ),
+                                      // );
                                     },
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,

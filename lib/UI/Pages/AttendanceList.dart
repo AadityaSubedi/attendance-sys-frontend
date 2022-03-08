@@ -1,4 +1,3 @@
-
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:attendance_sys/UI/Pages/Attendance.dart';
@@ -7,18 +6,27 @@ import 'package:attendance_sys/UI/Pages/LogIn.dart';
 import 'package:attendance_sys/main.dart';
 import 'package:flutter/material.dart';
 
-class AttendanceListWidget extends StatefulWidget {
-  const AttendanceListWidget({Key? key}) : super(key: key);
+class AttendanceListScreen extends StatefulWidget {
+  const AttendanceListScreen(
+      {Key? key,
+      required this.datedata,
+      required this.classname,
+      required this.subjectname})
+      : super(key: key);
 
+  final String? classname;
+  final String? subjectname;
+  final datedata;
   @override
-  _AttendanceListWidgetState createState() => _AttendanceListWidgetState();
+  _AttendanceListScreenState createState() => _AttendanceListScreenState();
 }
 
-class _AttendanceListWidgetState extends State<AttendanceListWidget> {
+class _AttendanceListScreenState extends State<AttendanceListScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
+    var dates = widget.datedata.keys.toList();
     return Scaffold(
       key: scaffoldKey,
       appBar: PreferredSize(
@@ -29,7 +37,7 @@ class _AttendanceListWidgetState extends State<AttendanceListWidget> {
           automaticallyImplyLeading: true,
           flexibleSpace: Column(
             mainAxisSize: MainAxisSize.max,
-            children: [ 
+            children: [
               Align(
                 alignment: AlignmentDirectional(-0.5, 0),
                 child: Padding(
@@ -172,7 +180,7 @@ class _AttendanceListWidgetState extends State<AttendanceListWidget> {
                           Align(
                             alignment: AlignmentDirectional(-0.6, 0),
                             child: Text(
-                              'Class Name\nSubject Name',
+                              'Class Name:    ${widget.classname}\nSubject Name: ${widget.subjectname}',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontFamily: 'Poppins',
@@ -189,97 +197,59 @@ class _AttendanceListWidgetState extends State<AttendanceListWidget> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      scrollDirection: Axis.vertical,
-                      children: [
-                        InkWell(
-                          onTap: () async {
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>  AttendanceWidget(),
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
+                      child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          scrollDirection: Axis.vertical,
+                          itemCount: dates.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              onTap: () async {
+                                // const url =
+                                //     'http://192.168.1.66:5000/api/getattendance';
+                                // var body = {
+                                //   "classname": classsChoose,
+                                //   "subjectname": subChoose
+                                // };
+                                // var data = await fetchData(url, body, 'GET');
+
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AttendanceWidget(
+                                        classname: widget.classname,
+                                        subjectname: widget.subjectname,
+                                        date: dates[index],
+                                        attendance: widget
+                                            .datedata[dates[index]]),
+                                  ),
+                                );
+                              },
+                              child: ListTile(
+                                title: Text(
+                                  dates[index],
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 18,
+                                    color: colrorPrimary,
+                                  ),
+                                ),
+                                trailing: Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Color(0xFF303030),
+                                  size: 20,
+                                ),
+                                tileColor: Color(0xFFF5F5F5),
+                                dense: false,
+                                contentPadding:
+                                    EdgeInsetsDirectional.fromSTEB(35, 0, 0, 0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
                               ),
                             );
-                          },
-                          child: ListTile(
-                            title: Text(
-                              'Date 1',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 18,
-                                color: colrorPrimary,
-                              ),
-                            ),
-                            trailing: Icon(
-                              Icons.arrow_forward_ios,
-                              color: Color(0xFF303030),
-                              size: 20,
-                            ),
-                            tileColor: Color(0xFFF5F5F5),
-                            dense: false,
-                            contentPadding:
-                                EdgeInsetsDirectional.fromSTEB(35, 0, 0, 0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(0),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AttendanceWidget(),
-                              ),
-                            );
-                          },
-                          child: ListTile(
-                            title: Text(
-                              'Date 2',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 18,
-                                color: colrorPrimary,
-                              ),
-                            ),
-                            trailing: Icon(
-                              Icons.arrow_forward_ios,
-                              color: Color(0xFF303030),
-                              size: 20,
-                            ),
-                            tileColor: Color(0xFFF5F5F5),
-                            dense: false,
-                            contentPadding:
-                                EdgeInsetsDirectional.fromSTEB(35, 0, 0, 0),
-                          ),
-                        ),
-                        ListTile(
-                          title: Text(
-                            'Date 3',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 18,
-                                color: colrorPrimary,
-                              ),
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_forward_ios,
-                            color: Color(0xFF303030),
-                            size: 20,
-                          ),
-                          tileColor: Color(0xFFF5F5F5),
-                          dense: false,
-                          contentPadding:
-                              EdgeInsetsDirectional.fromSTEB(35, 0, 0, 0),
-                        ),
-                      ],
-                    ),
-                  ),
+                          })),
                 ),
               ],
             ),
