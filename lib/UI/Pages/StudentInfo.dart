@@ -27,7 +27,7 @@ class _StudentInfoScreenState extends State<StudentInfoScreen> {
   int _currentSortColumn = 0;
   var _isInit = true;
   var _isLoading = false;
-  String? _total;
+  int? _total;
   Map<String, String?>? _body;
   String? _error;
   List<Map> _allStudents = [];
@@ -44,7 +44,7 @@ class _StudentInfoScreenState extends State<StudentInfoScreen> {
       try {
         // fetch classname and subject name
         var data = await fetchData("${BACKEND_URL}/api/getinfo",
-            body: {}, method: "GET", token: token);
+            body: _body, method: "GET", token: token);
 
         if (data.length != 0) {
           data['working_days'].forEach(
@@ -121,7 +121,7 @@ class _StudentInfoScreenState extends State<StudentInfoScreen> {
                             ),
                             TextButton(
                               onPressed: () async {
-                                Navigator.pop(alertDialogContext);
+                                
 
                                 Navigator.of(context).pushReplacementNamed(
                                   "/",

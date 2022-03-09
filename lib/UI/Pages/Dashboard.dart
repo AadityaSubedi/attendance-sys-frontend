@@ -9,6 +9,8 @@ import 'dart:convert';
 
 // import 'package:attendance_sys/UI/Pages/AddTrainStudents.dart';
 // import 'package:attendance_sys/UI/Pages/AttendanceList.dart';
+import 'package:attendance_sys/UI/Pages/AddTrainStudents.dart';
+import 'package:attendance_sys/UI/Pages/AttendanceList.dart';
 import 'package:attendance_sys/UI/Pages/LogIn.dart';
 import 'package:attendance_sys/UI/Pages/StudentInfo.dart';
 // import 'package:attendance_sys/UI/Pages/StudentInfo.dart';
@@ -452,19 +454,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: InkWell(
-                                    onTap: () async {
-                                      const url =
-                                          '$BACKEND_URL/api/getattendancelist';
+                                    onTap: () {
                                       var body = {
                                         "classname": classsChoose,
-                                        "subjectname": subChoose
+                                        "subjectname": subChoose,
                                       };
-                                      final token =
-                                          Provider.of<Auth>(context).token;
-                                      var data = await fetchData(url,
-                                          body: body,
-                                          method: 'GET',
-                                          token: token);
+                                      Navigator.of(context).pushNamed(
+                                          AttendanceListScreen.routeName,
+                                          arguments: body);
                                     },
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
@@ -498,34 +495,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     20, 0, 0, 20),
-                                child: Card(
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  color: Colors.white,
-                                  elevation: 10,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: const [
-                                      Icon(
-                                        Icons.add_circle,
-                                        color: Color(0xFFEA734D),
-                                        size: 60,
-                                      ),
-                                      Text(
-                                        'Add/Train\nStudents',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: 'Poppins',
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                      AddTrainStudentScreen.routeName,
+                                    );
+                                  },
+                                  child: Card(
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    color: Colors.white,
+                                    elevation: 10,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: const [
+                                        Icon(
+                                          Icons.add_circle,
                                           color: Color(0xFFEA734D),
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600,
+                                          size: 60,
                                         ),
-                                      ),
-                                    ],
+                                        Text(
+                                          'Add/Train\nStudents',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Color(0xFFEA734D),
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

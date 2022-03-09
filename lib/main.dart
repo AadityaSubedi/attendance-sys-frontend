@@ -1,3 +1,6 @@
+import 'package:attendance_sys/UI/Pages/AddTrainStudents.dart';
+import 'package:attendance_sys/UI/Pages/Attendance.dart';
+import 'package:attendance_sys/UI/Pages/AttendanceList.dart';
 import 'package:attendance_sys/UI/Pages/Dashboard.dart';
 import 'package:attendance_sys/UI/Pages/LogIn.dart';
 import 'package:attendance_sys/UI/Pages/StudentInfo.dart';
@@ -47,12 +50,16 @@ class MyApp extends StatelessWidget {
               primarySwatch: MaterialColor(0xFF265784, color),
             ),
             home:auth.isAuth?  DashboardScreen():  LogInScreen(),
+            // home : AddTrainStudentScreen(),
             routes: {
               LogInScreen.routeName: (ctx) =>  LogInScreen(),
               RegisterScreen.routeName: (ctx) =>  RegisterScreen(),
               DashboardScreen.routeName: (ctx) =>  DashboardScreen(),
               TakeAttendanceScreen.routeName: (ctx) =>  TakeAttendanceScreen(),
               StudentInfoScreen.routeName:(ctx)=>StudentInfoScreen(),
+              AddTrainStudentScreen.routeName:(ctx)=> AddTrainStudentScreen(),
+              AttendanceListScreen.routeName:(ctx)=> AttendanceListScreen(),
+              AttendanceScreen.routeName:(ctx)=>AttendanceScreen(),
 
               // TODO: Add other routes too
             }),

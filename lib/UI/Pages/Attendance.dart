@@ -1,32 +1,29 @@
-
-
 // ignore_for_file: prefer_const_constructors
-
-import 'package:attendance_sys/UI/Pages/Dashboard.dart';
-import 'package:attendance_sys/UI/Pages/LogIn.dart';
-import 'package:attendance_sys/main.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+class AttendanceScreen extends StatefulWidget {
+  const AttendanceScreen({
+    Key? key,
+  }) : super(key: key);
+  static const routeName = "/attendance";
 
-class AttendanceWidget extends StatefulWidget {
-  const AttendanceWidget({Key? key, required this.classname, required this.subjectname, required this.date, required this.attendance}) : super(key: key);
-
-  final String? classname;
-  final String? subjectname;
-  final String? date;
-  final attendance;
+  // required this.classname,
+  // required this.subjectname,
+  // required this.date,
+  // required this.attendance
   @override
-  _AttendanceWidgetState createState() => _AttendanceWidgetState();
+  _AttendanceScreenState createState() => _AttendanceScreenState();
 }
 
-class _AttendanceWidgetState extends State<AttendanceWidget> {
-  late bool checkboxListTileValue1=false;
-  late bool checkboxListTileValue2=false;
+class _AttendanceScreenState extends State<AttendanceScreen> {
+  late bool checkboxListTileValue1 = false;
+  late bool checkboxListTileValue2 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
+    var _body =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Scaffold(
       key: scaffoldKey,
       appBar: PreferredSize(
@@ -44,7 +41,7 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
                   padding: EdgeInsetsDirectional.fromSTEB(0, 45, 0, 0),
                   child: Text(
                     'Smart \nAttendance',
-                    style:TextStyle(
+                    style: TextStyle(
                       fontFamily: 'Poppins',
                       color: Colors.white,
                       fontSize: 30,
@@ -80,13 +77,7 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
                             TextButton(
                               onPressed: () async {
                                 Navigator.pop(alertDialogContext);
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => LogInScreen(),
-                                  ),
-                                );
-                                ;
+                                //logout
                               },
                               child: Text('Yes'),
                             ),
@@ -109,8 +100,7 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
               alignment: AlignmentDirectional(0, 0.15),
               child: InkWell(
                 onTap: () async {
-                  await Navigator.of(context)
-                                .pushReplacementNamed(DashboardScreen.routeName);
+                  //navigate to root
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(0),
@@ -175,7 +165,7 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
                         child: Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
                           child: Text(
-                            'Class Name:    ${widget.classname}\nSubject Name: ${widget.subjectname}\nDate: ${widget.date}',
+                            'Class Name:    ${_body["classname"]}\nSubject Name: ${_body["classname"]}\nDate: ${_body["date"]}',
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontFamily: 'Poppins',
@@ -186,28 +176,31 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
                           ),
                         ),
                       ),
+                      DataTable(
+                        columns: [
+                          DataColumn(
+                            label: Text('Roll no.'),
+                          ),
+                          DataColumn(label: Text('Status'), numeric: true)
+                        ],
+                        rows: (_body["attendance"] as List<dynamic>)
+                            .map((item) => DataRow(cells: <DataCell>[
+                                  DataCell(Text(item)),
+                                  DataCell(
+                                    Icon(
+                                      Icons.check,
+                                      color: Colors.green,
+                                      size: 20.0,
+                                    ),
+                                  )
+                                ]))
+                            .toList(),
+                        // sortColumnIndex: _currentSortColumn,
+                        // sortAscending: _isSortAsc,
+                      ),
                     ],
                   ),
                 ),
-                // DataTable(
-                //   columns: [
-                //     DataColumn(
-                //       label: Text('Roll no'),
-                //     ),
-                //     DataColumn(
-                //       label: Text('Present Days'),
-                //       numeric: true,
-                //     )
-                //   ],
-                //   rows: widget.info
-                //       .map((student) => DataRow(cells: [
-                //             DataCell(Text(student['roll_no'])),
-                //             DataCell(Text(student['present_days'].toString()))
-                //           ]))
-                //       .toList(),
-                //   // sortColumnIndex: _currentSortColumn,
-                //   // sortAscending: _isSortAsc,
-                // ),
               ],
             ),
           ),
