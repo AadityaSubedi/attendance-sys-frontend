@@ -2,7 +2,7 @@
 // import 'package:attendancesys_flutter/UI/Pages/Dashboard.dart';
 // ignore_for_file: prefer_const_constructors, unnecessary_const, prefer_const_literals_to_create_immutables
 
-import 'dart:html';
+// import 'dart:html';
 
 import 'package:attendance_sys/UI/Pages/Dashboard.dart';
 import 'package:attendance_sys/UI/Pages/LogIn.dart';

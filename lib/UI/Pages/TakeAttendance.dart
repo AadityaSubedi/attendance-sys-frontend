@@ -24,7 +24,7 @@ class _TakeAttendanceScreenState extends State<TakeAttendanceScreen> {
 
   var _isInit = true;
   var _isLoading = false;
-  var _body;
+  Map<String, String?>? _body;
 
   String? _error;
   @override
@@ -165,7 +165,7 @@ class _TakeAttendanceScreenState extends State<TakeAttendanceScreen> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Image.network(
-                      '$BACKEND_URL/api/getstream/${double.parse("${_body["time"]}")}',
+                      '$BACKEND_URL/api/getstream/${double.parse("${_body!["time"]}")}',
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height * 1,
                       fit: BoxFit.fitWidth,

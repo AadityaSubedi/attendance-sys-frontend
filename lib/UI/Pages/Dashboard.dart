@@ -10,6 +10,7 @@ import 'dart:convert';
 // import 'package:attendance_sys/UI/Pages/AddTrainStudents.dart';
 // import 'package:attendance_sys/UI/Pages/AttendanceList.dart';
 import 'package:attendance_sys/UI/Pages/LogIn.dart';
+import 'package:attendance_sys/UI/Pages/StudentInfo.dart';
 // import 'package:attendance_sys/UI/Pages/StudentInfo.dart';
 // import 'package:attendance_sys/UI/Pages/TakeAttendance.dart';
 import 'package:attendance_sys/function.dart';
@@ -158,7 +159,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       builder: (context) => const LogInScreen(),
                                     ),
                                   );
-                                  ;
                                 },
                                 child: Text('Yes'),
                               ),
@@ -396,24 +396,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                 RaisedButton(
                                                   child: Text("Start"),
                                                   onPressed: () async {
-                                                    const url =
-                                                        // use localhost:
-                                                        '$BACKEND_URL/api/takeattendance';
-
                                                     var body = {
                                                       "classname": classsChoose,
                                                       "subjectname": subChoose,
                                                       "time": attendanceTime,
                                                     };
-                                                    var data = await fetchData(
-                                                        url,
-                                                        body: body,
-                                                        method: 'POST');
-                                                    Navigator.of(context).pop();
+                                                    // Navigator.of(context).pop();
                                                     Navigator.of(context)
                                                         .pushReplacementNamed(
                                                             TakeAttendanceScreen
-                                                                .routeName, arguments: body);
+                                                                .routeName,
+                                                            arguments: body);
                                                   },
                                                 )
                                               ],
@@ -548,14 +541,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ),
                                   child: InkWell(
                                     onTap: () async {
-                                      // await Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) =>
-                                      //         const StudentInfoWidget(),
-                                      //     //StudentInfoWidget(),
-                                      //   ),
-                                      // );
+                                      var body = {
+                                        "classname": classsChoose,
+                                        "subjectname": subChoose,
+                                      };
+                                      Navigator.of(context).pushNamed(
+                                          StudentInfoScreen.routeName,
+                                          arguments: body);
                                     },
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,

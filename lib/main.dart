@@ -1,5 +1,6 @@
 import 'package:attendance_sys/UI/Pages/Dashboard.dart';
 import 'package:attendance_sys/UI/Pages/LogIn.dart';
+import 'package:attendance_sys/UI/Pages/StudentInfo.dart';
 import 'package:attendance_sys/UI/Pages/TakeAttendance.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
               RegisterScreen.routeName: (ctx) =>  RegisterScreen(),
               DashboardScreen.routeName: (ctx) =>  DashboardScreen(),
               TakeAttendanceScreen.routeName: (ctx) =>  TakeAttendanceScreen(),
+              StudentInfoScreen.routeName:(ctx)=>StudentInfoScreen(),
 
               // TODO: Add other routes too
             }),
