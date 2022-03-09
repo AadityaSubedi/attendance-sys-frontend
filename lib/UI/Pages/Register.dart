@@ -40,7 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   var _isLoading = false;
-  var _controllers = [];
+  final _controllers = [];
   void _callbackfn(List<TextEditingController> controllerPair) {
     _controllers.add(controllerPair);
   }
@@ -226,387 +226,389 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       padding:
                                           const EdgeInsetsDirectional.fromSTEB(
                                               0, 1, 0, 0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Align(
-                                            alignment:
-                                                const AlignmentDirectional(
-                                                    0, 0),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsetsDirectional
-                                                      .fromSTEB(35, 55, 35, 0),
-                                              child: TextFormField(
-                                                onChanged: (text) =>
-                                                    EasyDebounce.debounce(
-                                                  'textController1',
-                                                  const Duration(
-                                                      milliseconds: 2000),
-                                                  () => setState(() {}),
-                                                ),
-                                                controller: usernameController,
-                                                obscureText: false,
-                                                decoration: InputDecoration(
-                                                  hintText: 'Username',
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide:
-                                                        const BorderSide(
-                                                      color: Color(0x3F265784),
-                                                      width: 3,
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Align(
+                                              alignment:
+                                                  const AlignmentDirectional(
+                                                      0, 0),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(35, 55, 35, 0),
+                                                child: TextFormField(
+                                                  onChanged: (text) =>
+                                                      EasyDebounce.debounce(
+                                                    'textController1',
+                                                    const Duration(
+                                                        milliseconds: 2000),
+                                                    () => setState(() {}),
+                                                  ),
+                                                  controller: usernameController,
+                                                  obscureText: false,
+                                                  decoration: InputDecoration(
+                                                    hintText: 'Username',
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
+                                                        color: Color(0x3F265784),
+                                                        width: 3,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              22),
                                                     ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            22),
-                                                  ),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide:
-                                                        const BorderSide(
-                                                      color: Color(0x3F265784),
-                                                      width: 3,
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
+                                                        color: Color(0x3F265784),
+                                                        width: 3,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              22),
                                                     ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            22),
-                                                  ),
-                                                  prefixIcon: const Icon(
-                                                    Icons
-                                                        .person_outline_rounded,
-                                                    color: Color(0xFF265784),
-                                                  ),
-                                                  suffixIcon: usernameController
-                                                          .text.isNotEmpty
-                                                      ? InkWell(
-                                                          onTap: () => setState(
-                                                            () =>
-                                                                usernameController
-                                                                    .clear(),
-                                                          ),
-                                                          child: const Icon(
-                                                            Icons.clear,
-                                                            color: Color(
-                                                                0xFF265784),
-                                                            size: 22,
-                                                          ),
-                                                        )
-                                                      : null,
-                                                ),
-                                                style: GoogleFonts.getFont(
-                                                  'Roboto',
-                                                  color:
-                                                      const Color(0x7F265784),
-                                                  fontSize: 18,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                                keyboardType:
-                                                    TextInputType.name,
-                                                validator: (val) {
-                                                  if (val!.isEmpty) {
-                                                    return 'Username required';
-                                                  }
-
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                          Align(
-                                            alignment:
-                                                const AlignmentDirectional(
-                                                    0, 0),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsetsDirectional
-                                                      .fromSTEB(35, 40, 35, 0),
-                                              child: TextFormField(
-                                                onChanged: (text) =>
-                                                    EasyDebounce.debounce(
-                                                  'textController2',
-                                                  const Duration(
-                                                      milliseconds: 2000),
-                                                  () => setState(() {}),
-                                                ),
-                                                controller: emailController,
-                                                obscureText: false,
-                                                decoration: InputDecoration(
-                                                  hintText: 'Email',
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide:
-                                                        const BorderSide(
-                                                      color: Color(0x3F265784),
-                                                      width: 3,
+                                                    prefixIcon: const Icon(
+                                                      Icons
+                                                          .person_outline_rounded,
+                                                      color: Color(0xFF265784),
                                                     ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            25),
+                                                    suffixIcon: usernameController
+                                                            .text.isNotEmpty
+                                                        ? InkWell(
+                                                            onTap: () => setState(
+                                                              () =>
+                                                                  usernameController
+                                                                      .clear(),
+                                                            ),
+                                                            child: const Icon(
+                                                              Icons.clear,
+                                                              color: Color(
+                                                                  0xFF265784),
+                                                              size: 22,
+                                                            ),
+                                                          )
+                                                        : null,
                                                   ),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide:
-                                                        const BorderSide(
-                                                      color: Color(0x3F265784),
-                                                      width: 3,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            25),
-                                                  ),
-                                                  prefixIcon: const Icon(
-                                                    Icons.email_outlined,
-                                                    color: Color(0xFF265784),
-                                                  ),
-                                                  suffixIcon: emailController
-                                                          .text.isNotEmpty
-                                                      ? InkWell(
-                                                          onTap: () => setState(
-                                                            () =>
-                                                                emailController
-                                                                    .clear(),
-                                                          ),
-                                                          child: const Icon(
-                                                            Icons.clear,
-                                                            color: Color(
-                                                                0xFF265784),
-                                                            size: 22,
-                                                          ),
-                                                        )
-                                                      : null,
-                                                ),
-                                                style: GoogleFonts.getFont(
-                                                  'Roboto',
-                                                  color:
-                                                      const Color(0x7F265784),
-                                                  fontSize: 18,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                                keyboardType:
-                                                    TextInputType.emailAddress,
-                                                validator: (val) {
-                                                  if (val!.isEmpty) {
-                                                    return 'Email Required';
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                          Align(
-                                            alignment:
-                                                const AlignmentDirectional(
-                                                    0, 0),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsetsDirectional
-                                                      .fromSTEB(35, 40, 35, 0),
-                                              child: TextFormField(
-                                                onChanged: (text) =>
-                                                    EasyDebounce.debounce(
-                                                  'textController3',
-                                                  const Duration(
-                                                      milliseconds: 2000),
-                                                  () => setState(() {}),
-                                                ),
-                                                controller: passwordController,
-                                                obscureText:
-                                                    !passwordVisibility1,
-                                                decoration: InputDecoration(
-                                                  hintText: 'Password',
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide:
-                                                        const BorderSide(
-                                                      color: Color(0x3F265784),
-                                                      width: 3,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            25),
-                                                  ),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide:
-                                                        const BorderSide(
-                                                      color: const Color(
-                                                          0x3F265784),
-                                                      width: 3,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            25),
-                                                  ),
-                                                  prefixIcon: const Icon(
-                                                    Icons.lock_outlined,
-                                                    color: Color(0xFF265784),
-                                                  ),
-                                                  suffixIcon: InkWell(
-                                                    onTap: () => setState(
-                                                      () => passwordVisibility1 =
-                                                          !passwordVisibility1,
-                                                    ),
-                                                    child: Icon(
-                                                      passwordVisibility1
-                                                          ? Icons
-                                                              .visibility_outlined
-                                                          : Icons
-                                                              .visibility_off_outlined,
-                                                      color: const Color(
-                                                          0xFF265784),
-                                                      size: 22,
-                                                    ),
-                                                  ),
-                                                ),
-                                                style: GoogleFonts.getFont(
-                                                  'Roboto',
-                                                  color:
-                                                      const Color(0x7F265784),
-                                                  fontSize: 18,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                                keyboardType: TextInputType
-                                                    .visiblePassword,
-                                                validator: (val) {
-                                                  if (val!.isEmpty) {
-                                                    return 'Password Required';
-                                                  }
-                                                  if (val.length < 6) {
-                                                    return 'Password must be at least 6 character long';
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                          Align(
-                                            alignment:
-                                                const AlignmentDirectional(
-                                                    0, 0),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsetsDirectional
-                                                      .fromSTEB(35, 40, 35, 0),
-                                              child: TextFormField(
-                                                controller:
-                                                    confirmpasswordController,
-                                                obscureText:
-                                                    !passwordVisibility2,
-                                                decoration: InputDecoration(
-                                                  hintText: 'Confirm Password',
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide:
-                                                        const BorderSide(
-                                                      color: const Color(
-                                                          0x3F265784),
-                                                      width: 3,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            25),
-                                                  ),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide:
-                                                        const BorderSide(
-                                                      color: Color(0x3F265784),
-                                                      width: 3,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            25),
-                                                  ),
-                                                  prefixIcon: const Icon(
-                                                    Icons.lock_outlined,
-                                                    color: Color(0xFF265784),
-                                                  ),
-                                                  suffixIcon: InkWell(
-                                                    onTap: () => setState(
-                                                      () => passwordVisibility2 =
-                                                          !passwordVisibility2,
-                                                    ),
-                                                    child: Icon(
-                                                      passwordVisibility2
-                                                          ? Icons
-                                                              .visibility_outlined
-                                                          : Icons
-                                                              .visibility_off_outlined,
-                                                      color: const Color(
-                                                          0xFF265784),
-                                                      size: 22,
-                                                    ),
-                                                  ),
-                                                ),
-                                                style: GoogleFonts.getFont(
-                                                  'Roboto',
-                                                  color:
-                                                      const Color(0x7F265784),
-                                                  fontSize: 18,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                                keyboardType: TextInputType
-                                                    .visiblePassword,
-                                                validator: (val) {
-                                                  if (val!.isEmpty) {
-                                                    return 'Password Required';
-                                                  }
-                                                  if (val.length < 6) {
-                                                    return 'Password must be at least 6 character long';
-                                                  }
-                                                  if (val !=
-                                                      passwordController.text) {
-                                                    return ("Match doesn't match");
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsetsDirectional
-                                                .fromSTEB(0, 20, 0, 0),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'Already have an account?',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Poppins',
+                                                  style: GoogleFonts.getFont(
+                                                    'Roboto',
                                                     color:
-                                                        HexColor("#7f265784"),
-                                                    fontSize: 16,
+                                                        const Color(0x7F265784),
+                                                    fontSize: 18,
                                                   ),
-                                                ),
-                                                TextButton(
-                                                  style: TextButton.styleFrom(
-                                                    primary: Colors.white,
-                                                  ),
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .pushReplacementNamed(
-                                                            LogInScreen
-                                                                .routeName);
+                                                  textAlign: TextAlign.center,
+                                                  keyboardType:
+                                                      TextInputType.name,
+                                                  validator: (val) {
+                                                    if (val!.isEmpty) {
+                                                      return 'Username required';
+                                                    }
+                                                                  
+                                                    return null;
                                                   },
-                                                  child: Text(
-                                                    'Sign In',
+                                                ),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment:
+                                                  const AlignmentDirectional(
+                                                      0, 0),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(35, 40, 35, 0),
+                                                child: TextFormField(
+                                                  onChanged: (text) =>
+                                                      EasyDebounce.debounce(
+                                                    'textController2',
+                                                    const Duration(
+                                                        milliseconds: 2000),
+                                                    () => setState(() {}),
+                                                  ),
+                                                  controller: emailController,
+                                                  obscureText: false,
+                                                  decoration: InputDecoration(
+                                                    hintText: 'Email',
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
+                                                        color: Color(0x3F265784),
+                                                        width: 3,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25),
+                                                    ),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
+                                                        color: Color(0x3F265784),
+                                                        width: 3,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25),
+                                                    ),
+                                                    prefixIcon: const Icon(
+                                                      Icons.email_outlined,
+                                                      color: Color(0xFF265784),
+                                                    ),
+                                                    suffixIcon: emailController
+                                                            .text.isNotEmpty
+                                                        ? InkWell(
+                                                            onTap: () => setState(
+                                                              () =>
+                                                                  emailController
+                                                                      .clear(),
+                                                            ),
+                                                            child: const Icon(
+                                                              Icons.clear,
+                                                              color: Color(
+                                                                  0xFF265784),
+                                                              size: 22,
+                                                            ),
+                                                          )
+                                                        : null,
+                                                  ),
+                                                  style: GoogleFonts.getFont(
+                                                    'Roboto',
+                                                    color:
+                                                        const Color(0x7F265784),
+                                                    fontSize: 18,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                  keyboardType:
+                                                      TextInputType.emailAddress,
+                                                  validator: (val) {
+                                                    if (val!.isEmpty) {
+                                                      return 'Email Required';
+                                                    }
+                                                    return null;
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment:
+                                                  const AlignmentDirectional(
+                                                      0, 0),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(35, 40, 35, 0),
+                                                child: TextFormField(
+                                                  onChanged: (text) =>
+                                                      EasyDebounce.debounce(
+                                                    'textController3',
+                                                    const Duration(
+                                                        milliseconds: 2000),
+                                                    () => setState(() {}),
+                                                  ),
+                                                  controller: passwordController,
+                                                  obscureText:
+                                                      !passwordVisibility1,
+                                                  decoration: InputDecoration(
+                                                    hintText: 'Password',
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
+                                                        color: Color(0x3F265784),
+                                                        width: 3,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25),
+                                                    ),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
+                                                        color: const Color(
+                                                            0x3F265784),
+                                                        width: 3,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25),
+                                                    ),
+                                                    prefixIcon: const Icon(
+                                                      Icons.lock_outlined,
+                                                      color: Color(0xFF265784),
+                                                    ),
+                                                    suffixIcon: InkWell(
+                                                      onTap: () => setState(
+                                                        () => passwordVisibility1 =
+                                                            !passwordVisibility1,
+                                                      ),
+                                                      child: Icon(
+                                                        passwordVisibility1
+                                                            ? Icons
+                                                                .visibility_outlined
+                                                            : Icons
+                                                                .visibility_off_outlined,
+                                                        color: const Color(
+                                                            0xFF265784),
+                                                        size: 22,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  style: GoogleFonts.getFont(
+                                                    'Roboto',
+                                                    color:
+                                                        const Color(0x7F265784),
+                                                    fontSize: 18,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                  keyboardType: TextInputType
+                                                      .visiblePassword,
+                                                  validator: (val) {
+                                                    if (val!.isEmpty) {
+                                                      return 'Password Required';
+                                                    }
+                                                    if (val.length < 6) {
+                                                      return 'Password must be at least 6 character long';
+                                                    }
+                                                    return null;
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment:
+                                                  const AlignmentDirectional(
+                                                      0, 0),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(35, 40, 35, 0),
+                                                child: TextFormField(
+                                                  controller:
+                                                      confirmpasswordController,
+                                                  obscureText:
+                                                      !passwordVisibility2,
+                                                  decoration: InputDecoration(
+                                                    hintText: 'Confirm Password',
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
+                                                        color: const Color(
+                                                            0x3F265784),
+                                                        width: 3,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25),
+                                                    ),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
+                                                        color: Color(0x3F265784),
+                                                        width: 3,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25),
+                                                    ),
+                                                    prefixIcon: const Icon(
+                                                      Icons.lock_outlined,
+                                                      color: Color(0xFF265784),
+                                                    ),
+                                                    suffixIcon: InkWell(
+                                                      onTap: () => setState(
+                                                        () => passwordVisibility2 =
+                                                            !passwordVisibility2,
+                                                      ),
+                                                      child: Icon(
+                                                        passwordVisibility2
+                                                            ? Icons
+                                                                .visibility_outlined
+                                                            : Icons
+                                                                .visibility_off_outlined,
+                                                        color: const Color(
+                                                            0xFF265784),
+                                                        size: 22,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  style: GoogleFonts.getFont(
+                                                    'Roboto',
+                                                    color:
+                                                        const Color(0x7F265784),
+                                                    fontSize: 18,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                  keyboardType: TextInputType
+                                                      .visiblePassword,
+                                                  validator: (val) {
+                                                    if (val!.isEmpty) {
+                                                      return 'Password Required';
+                                                    }
+                                                    if (val.length < 6) {
+                                                      return 'Password must be at least 6 character long';
+                                                    }
+                                                    if (val !=
+                                                        passwordController.text) {
+                                                      return ("Match doesn't match");
+                                                    }
+                                                    return null;
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsetsDirectional
+                                                  .fromSTEB(0, 20, 0, 0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'Already have an account?',
                                                     style: TextStyle(
                                                       fontFamily: 'Poppins',
-                                                      color: colorSecondary,
+                                                      color:
+                                                          HexColor("#7f265784"),
                                                       fontSize: 16,
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                  TextButton(
+                                                    style: TextButton.styleFrom(
+                                                      primary: Colors.white,
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pushReplacementNamed(
+                                                              LogInScreen
+                                                                  .routeName);
+                                                    },
+                                                    child: Text(
+                                                      'Sign In',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Poppins',
+                                                        color: colorSecondary,
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     SingleChildScrollView(
@@ -703,7 +705,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                       if (val!.isEmpty) {
                                                         return 'FullName required';
                                                       }
-
+                                                                
                                                       return null;
                                                     },
                                                   ),
@@ -802,12 +804,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                   ),
+        
                 ],
+                ),
               ),
             ),
           ),
         ),
-      ),
+      
     );
   }
 }

@@ -99,263 +99,265 @@ class _LogInScreenState extends State<LogInScreen> {
           ),
         ),
         backgroundColor: Colors.white,
-        body: SafeArea(
-          child: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(1, 0, 0, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF265784),
-                            borderRadius: BorderRadius.circular(0),
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 0,
-                            ),
-                          ),
-                          child: Container(
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(1, 0, 0, 0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 1,
+                            height: MediaQuery.of(context).size.height * 0.05,
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              // ignore: prefer_const_constructors
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: const Radius.circular(0),
-                                bottomRight: const Radius.circular(0),
-                                topLeft: const Radius.circular(100),
-                                topRight: const Radius.circular(0),
-                              ),
+                              color: const Color(0xFF265784),
+                              borderRadius: BorderRadius.circular(0),
                               border: Border.all(
                                 color: Colors.white,
+                                width: 0,
+                              ),
+                            ),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * 1,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                // ignore: prefer_const_constructors
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: const Radius.circular(0),
+                                  bottomRight: const Radius.circular(0),
+                                  topLeft: const Radius.circular(100),
+                                  topRight: const Radius.circular(0),
+                                ),
+                                border: Border.all(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Align(
-                          alignment: const AlignmentDirectional(-0.85, -0.2),
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                10, 10, 0, 0),
-                            child: AutoSizeText(
-                              'Welcome Back!',
-                              style: GoogleFonts.getFont(
-                                'Roboto',
-                                fontWeight: FontWeight.w800,
-                                fontSize: 18,
+                          Align(
+                            alignment: const AlignmentDirectional(-0.85, -0.2),
+                            child: Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  10, 10, 0, 0),
+                              child: AutoSizeText(
+                                'Welcome Back!',
+                                style: GoogleFonts.getFont(
+                                  'Roboto',
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 18,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Align(
-                          alignment: const AlignmentDirectional(0, -0.5),
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                0, 20, 0, 0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.asset(
-                                'assets/images/Wavy_Tech-17_Single-03.jpg',
-                                width: 250,
-                                fit: BoxFit.fill,
+                          Align(
+                            alignment: const AlignmentDirectional(0, -0.5),
+                            child: Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 20, 0, 0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.asset(
+                                  'assets/images/Wavy_Tech-17_Single-03.jpg',
+                                  width: 250,
+                                  fit: BoxFit.fill,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Align(
-                    alignment: const AlignmentDirectional(0, 0),
-                    child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(35, 20, 35, 0),
-                      child: TextFormField(
-                        onChanged: (_) => EasyDebounce.debounce(
-                          'textController1',
-                          const Duration(milliseconds: 2000),
-                          () => setState(() {}),
-                        ),
-                        controller: emailController,
-                        obscureText: false,
-                        decoration: InputDecoration(
-                          hintText: 'Username',
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Color(0x3F265784),
-                              width: 3,
-                            ),
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Color(0x3F265784),
-                              width: 3,
-                            ),
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          prefixIcon: const Icon(
-                            Icons.person_outline_rounded,
-                            color: Color(0xFF265784),
-                          ),
-                          suffixIcon: emailController.text.isNotEmpty
-                              ? InkWell(
-                                  onTap: () => setState(
-                                    () => emailController.clear(),
-                                  ),
-                                  child: const Icon(
-                                    Icons.clear,
-                                    color: Color(0xFF265784),
-                                    size: 22,
-                                  ),
-                                )
-                              : null,
-                        ),
-                        style: GoogleFonts.getFont(
-                          'Roboto',
-                          color: const Color(0x7F265784),
-                          fontSize: 18,
-                        ),
-                        textAlign: TextAlign.center,
-                        keyboardType: TextInputType.name,
-                        validator: (val) {
-                          if (val!.isEmpty) {
-                            return 'Username required';
-                          }
-
-                          return null;
-                        },
+                        ],
                       ),
                     ),
-                  ),
-                  Align(
-                    alignment: const AlignmentDirectional(0, 0),
-                    child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(35, 20, 35, 0),
-                      child: TextFormField(
-                        controller: passwordController,
-                        obscureText: !passwordVisibility,
-                        decoration: InputDecoration(
-                          hintText: 'Password',
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Color(0x3F265784),
-                              width: 3,
+                    Align(
+                      alignment: const AlignmentDirectional(0, 0),
+                      child: Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(35, 20, 35, 0),
+                        child: TextFormField(
+                          onChanged: (_) => EasyDebounce.debounce(
+                            'textController1',
+                            const Duration(milliseconds: 2000),
+                            () => setState(() {}),
+                          ),
+                          controller: emailController,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            hintText: 'Username',
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Color(0x3F265784),
+                                width: 3,
+                              ),
+                              borderRadius: BorderRadius.circular(25),
                             ),
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Color(0x3F265784),
-                              width: 3,
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Color(0x3F265784),
+                                width: 3,
+                              ),
+                              borderRadius: BorderRadius.circular(25),
                             ),
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          prefixIcon: const Icon(
-                            Icons.lock_outlined,
-                            color: Color(0xFF265784),
-                          ),
-                          suffixIcon: InkWell(
-                            onTap: () => setState(
-                              () => passwordVisibility = !passwordVisibility,
+                            prefixIcon: const Icon(
+                              Icons.person_outline_rounded,
+                              color: Color(0xFF265784),
                             ),
-                            child: Icon(
-                              passwordVisibility
-                                  ? Icons.visibility_outlined
-                                  : Icons.visibility_off_outlined,
-                              color: const Color(0xFF265784),
-                              size: 22,
-                            ),
+                            suffixIcon: emailController.text.isNotEmpty
+                                ? InkWell(
+                                    onTap: () => setState(
+                                      () => emailController.clear(),
+                                    ),
+                                    child: const Icon(
+                                      Icons.clear,
+                                      color: Color(0xFF265784),
+                                      size: 22,
+                                    ),
+                                  )
+                                : null,
                           ),
-                        ),
-                        style: GoogleFonts.getFont(
-                          'Roboto',
-                          color: const Color(0x7F265784),
-                          fontSize: 18,
-                        ),
-                        textAlign: TextAlign.center,
-                        keyboardType: TextInputType.visiblePassword,
-                        validator: (val) {
-                          if (val!.isEmpty) {
-                            return 'Password Required';
-                          }
-                          if (val.length < 6) {
-                            return 'Password must be at least 6 character long';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ),
-                  _isLoading? CircularProgressIndicator():
-                  Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(120, 50),
-                        primary: colorSecondary,
-                        elevation: 6,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      onPressed: _login,
-                      child: const Text(
-                        'LogIn',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Don’t have an account?',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: HexColor("#7f265784"),
-                            fontSize: 16,
+                          style: GoogleFonts.getFont(
+                            'Roboto',
+                            color: const Color(0x7F265784),
+                            fontSize: 18,
                           ),
-                        ),
-                        TextButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context)
-                                .pushReplacementNamed(RegisterScreen.routeName);
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.name,
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return 'Username required';
+                            }
+        
+                            return null;
                           },
-                          child: Text(
-                            'Sign Up',
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: const AlignmentDirectional(0, 0),
+                      child: Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(35, 20, 35, 0),
+                        child: TextFormField(
+                          controller: passwordController,
+                          obscureText: !passwordVisibility,
+                          decoration: InputDecoration(
+                            hintText: 'Password',
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Color(0x3F265784),
+                                width: 3,
+                              ),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Color(0x3F265784),
+                                width: 3,
+                              ),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            prefixIcon: const Icon(
+                              Icons.lock_outlined,
+                              color: Color(0xFF265784),
+                            ),
+                            suffixIcon: InkWell(
+                              onTap: () => setState(
+                                () => passwordVisibility = !passwordVisibility,
+                              ),
+                              child: Icon(
+                                passwordVisibility
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                                color: const Color(0xFF265784),
+                                size: 22,
+                              ),
+                            ),
+                          ),
+                          style: GoogleFonts.getFont(
+                            'Roboto',
+                            color: const Color(0x7F265784),
+                            fontSize: 18,
+                          ),
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.visiblePassword,
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return 'Password Required';
+                            }
+                            if (val.length < 6) {
+                              return 'Password must be at least 6 character long';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ),
+                    _isLoading? CircularProgressIndicator():
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(120, 50),
+                          primary: colorSecondary,
+                          elevation: 6,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ),
+                        onPressed: _login,
+                        child: const Text(
+                          'LogIn',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Don’t have an account?',
                             style: TextStyle(
                               fontFamily: 'Poppins',
-                              color: colorSecondary,
+                              color: HexColor("#7f265784"),
                               fontSize: 16,
                             ),
                           ),
-                        ),
-                      ],
+                          TextButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.white,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushReplacementNamed(RegisterScreen.routeName);
+                            },
+                            child: Text(
+                              'Sign Up',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: colorSecondary,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
