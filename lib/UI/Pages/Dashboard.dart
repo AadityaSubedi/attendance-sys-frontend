@@ -104,95 +104,97 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: PreferredSize(
         preferredSize:
             Size.fromHeight(MediaQuery.of(context).size.height * 0.14),
-        child: AppBar(
-          backgroundColor: const Color(0xFF265784),
-          automaticallyImplyLeading: false,
-          flexibleSpace: Container(
-            padding: EdgeInsets.only(right: 20, bottom: 10),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                const Align(
-                  alignment: AlignmentDirectional(-0.5, 0),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 45, 0, 0),
-                    child: Text(
-                      'Smart \nAttendance',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.white,
-                        fontSize: 30,
+        child: SingleChildScrollView(
+          child: AppBar(
+            backgroundColor: const Color(0xFF265784),
+            automaticallyImplyLeading: false,
+            flexibleSpace: Container(
+              padding: EdgeInsets.only(right: 20, bottom: 10),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  const Align(
+                    alignment: AlignmentDirectional(-0.5, 0),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 45, 0, 0),
+                      child: Text(
+                        'Smart \nAttendance',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Colors.white,
+                          fontSize: 30,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Align(
-                  alignment: const AlignmentDirectional(0.95, 0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    height: MediaQuery.of(context).size.height * 0.015,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF265784),
+                  Align(
+                    alignment: const AlignmentDirectional(0.95, 0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      height: MediaQuery.of(context).size.height * 0.015,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF265784),
+                      ),
                     ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  // const AlignmentDirectional(0.85, 0),
-                  child: InkWell(
-                    onTap: () async {
-                      await showDialog(
-                        context: context,
-                        builder: (alertDialogContext) {
-                          return AlertDialog(
-                            title: Text('Are you sure to logout?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.pop(alertDialogContext),
-                                child: Text('No'),
-                              ),
-                              TextButton(
-                                onPressed: () async {
-                                  Navigator.pop(alertDialogContext);
-                                  await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const LogInScreen(),
-                                    ),
-                                  );
-                                },
-                                child: Text('Yes'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    child: Icon(
-                      Icons.logout,
-                      color: Colors.white,
-                      size: 25,
+                  Align(
+                    alignment: Alignment.centerRight,
+                    // const AlignmentDirectional(0.85, 0),
+                    child: InkWell(
+                      onTap: () async {
+                        await showDialog(
+                          context: context,
+                          builder: (alertDialogContext) {
+                            return AlertDialog(
+                              title: Text('Are you sure to logout?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(alertDialogContext),
+                                  child: Text('No'),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    Navigator.pop(alertDialogContext);
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const LogInScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text('Yes'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Icon(
+                        Icons.logout,
+                        color: Colors.white,
+                        size: 25,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            Align(
-              alignment: AlignmentDirectional(0, 0.15),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(0),
-                child: Image.asset(
-                  'assets/images/2123.png',
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  fit: BoxFit.contain,
-                ),
+                ],
               ),
             ),
-          ],
-          elevation: 0,
+            actions: [
+              Align(
+                alignment: AlignmentDirectional(0, 0.15),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(0),
+                  child: Image.asset(
+                    'assets/images/2123.png',
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+            ],
+            elevation: 0,
+          ),
         ),
       ),
       backgroundColor: Colors.white,
