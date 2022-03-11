@@ -1,5 +1,3 @@
-
-
 import 'package:attendance_sys/constants.dart';
 import 'package:attendance_sys/function.dart';
 import 'package:attendance_sys/main.dart';
@@ -49,7 +47,7 @@ class _AddTrainStudentScreenState extends State<AddTrainStudentScreen> {
 
   //List allImages = [];
   Map<String, dynamic> faceImages = {};
-  List detectedImages = [];
+  //List detectedImages = [];
 
   void pickImages() async {
     List imagePaths = [];
@@ -59,14 +57,19 @@ class _AddTrainStudentScreenState extends State<AddTrainStudentScreen> {
       // images!.forEach((image) {
       //   faceImages[image.path] = null;
       // });
-      images!.forEach((image) => {imagePaths.add(image.path)});
+      images!.forEach((image) {
+        imagePaths.add(image.path);
+        faceImages[image.path] = null;
+      });
+      setState(() {
+      });
       //allImages.addAll(images);
       const url = '$BACKEND_URL/train/check';
       try {
         //faceImages.forEach((key, _) => imagePaths.add(key));
         Map<String, dynamic> detected = await uploadImage(imagePaths, url);
         faceImages = {...faceImages, ...detected};
-        detectedImages = faceImages.keys.toList();
+        //detectedImages = faceImages.keys.toList();
         //detectedImages.addAll(detected.values.toList());
       } catch (err) {
         print(err);
@@ -78,7 +81,9 @@ class _AddTrainStudentScreenState extends State<AddTrainStudentScreen> {
   void onUpload(label) async {
     try {
       const url = '$BACKEND_URL/train/upload';
-      await uploadImage(detectedImages, url, label: label);
+      //await uploadImage(detectedImages, url, label: label);
+      await uploadImage(faceImages.keys.toList(), url, label: label);
+      
     } catch (err) {
       print(err);
     }
@@ -361,18 +366,21 @@ class _AddTrainStudentScreenState extends State<AddTrainStudentScreen> {
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         // itemCount: allImages.length + 1,
-                        itemCount: detectedImages.length + 1,
+                        // itemCount: detectedImages.length + 1,
+                        itemCount: faceImages.length + 1,
                         itemBuilder: (BuildContext context, int index) {
                           return ClipRRect(
                               borderRadius: BorderRadius.circular(10),
-                              child: index == detectedImages.length
+                              child: index == faceImages.length
                                   ? CustomIconButton(onPress: pickImages)
                                   : Stack(
                                       fit: StackFit.expand,
                                       children: [
-                              
+                                        faceImages.values.elementAt(index) == null 
+                                        ? const CircularProgressIndicator()
+                                        : 
                                         Image.network(
-                                          "$BACKEND_URL/face/${faceImages[detectedImages[index]]}",
+                                          "$BACKEND_URL/face/${faceImages.values.elementAt(index)}",
                                           fit: BoxFit.cover,
                                         ),
 
@@ -397,18 +405,18 @@ class _AddTrainStudentScreenState extends State<AddTrainStudentScreen> {
                                                   padding: EdgeInsets.zero,
                                                   onPressed: () {
                                                     print(faceImages);
-                                                    detectedImages.removeWhere(
-                                                        (value) =>
-                                                            value == detectedImages[
-                                                                index]);
+                                                    print('******************');
+                                                    //print(detectedImages);
                                                     faceImages.removeWhere((key,
                                                             value) =>
                                                         key ==
-                                                        detectedImages[index]);
-
-
+                                                        faceImages.keys.elementAt(index));
                                                     // detectedImages
                                                     //     .removeAt(index);
+                                                    print('******************');
+                                                    //print(detectedImages);
+                                                    print('******************');
+                                                    print(faceImages);
                                                     setState(() {});
                                                   },
                                                   iconSize: 18.0,
@@ -459,7 +467,7 @@ class _AddTrainStudentScreenState extends State<AddTrainStudentScreen> {
                             borderRadius: BorderRadius.circular(30.0),
                           ),
                         ),
-                        onPressed: () => {},
+                        onPressed: onTrain,
                         child: const Text(
                           'Train',
                           style: TextStyle(

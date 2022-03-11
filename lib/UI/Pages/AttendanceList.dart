@@ -61,7 +61,7 @@ class _AttendanceListScreenState extends State<AttendanceListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var dates = _datedata.keys.toList();
+    //var dates = _datedata.keys.toList();
     return Scaffold(
       key: scaffoldKey,
       appBar: PreferredSize(
@@ -223,15 +223,15 @@ class _AttendanceListScreenState extends State<AttendanceListScreen> {
                             child: ListView.builder(
                                 padding: EdgeInsets.zero,
                                 scrollDirection: Axis.vertical,
-                                itemCount: dates.length,
+                                itemCount: _datedata.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return InkWell(
                                     onTap: () {
                                       var body = {
                                         "classname": _body!["classname"],
                                         "subjectname": _body!["subjectname"],
-                                        "date": dates[index],
-                                        "attendance": _datedata[dates[index]],
+                                        "date": _datedata.keys.elementAt(index),
+                                        "attendance": _datedata.values.elementAt(index),
                                       };
                                       Navigator.of(context).pushNamed(
                                           AttendanceScreen.routeName,
@@ -239,7 +239,7 @@ class _AttendanceListScreenState extends State<AttendanceListScreen> {
                                     },
                                     child: ListTile(
                                       title: Text(
-                                        dates[index],
+                                        _datedata.keys.elementAt(index),
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
