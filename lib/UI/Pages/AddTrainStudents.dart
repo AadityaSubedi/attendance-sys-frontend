@@ -1,3 +1,5 @@
+
+
 import 'package:attendance_sys/constants.dart';
 import 'package:attendance_sys/function.dart';
 import 'package:attendance_sys/main.dart';
@@ -65,8 +67,6 @@ class _AddTrainStudentScreenState extends State<AddTrainStudentScreen> {
         Map<String, dynamic> detected = await uploadImage(imagePaths, url);
         faceImages = {...faceImages, ...detected};
         detectedImages = faceImages.keys.toList();
-        print(faceImages);
-        print(detectedImages);
         //detectedImages.addAll(detected.values.toList());
       } catch (err) {
         print(err);
@@ -370,6 +370,7 @@ class _AddTrainStudentScreenState extends State<AddTrainStudentScreen> {
                                   : Stack(
                                       fit: StackFit.expand,
                                       children: [
+                              
                                         Image.network(
                                           "$BACKEND_URL/face/${faceImages[detectedImages[index]]}",
                                           fit: BoxFit.cover,
@@ -395,10 +396,17 @@ class _AddTrainStudentScreenState extends State<AddTrainStudentScreen> {
                                               child: IconButton(
                                                   padding: EdgeInsets.zero,
                                                   onPressed: () {
+                                                    print(faceImages);
+                                                    detectedImages.removeWhere(
+                                                        (value) =>
+                                                            value == detectedImages[
+                                                                index]);
                                                     faceImages.removeWhere((key,
                                                             value) =>
                                                         key ==
                                                         detectedImages[index]);
+
+
                                                     // detectedImages
                                                     //     .removeAt(index);
                                                     setState(() {});

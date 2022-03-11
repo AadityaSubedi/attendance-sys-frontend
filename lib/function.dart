@@ -1,9 +1,7 @@
-
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-
 
 fetchData(String url,
     {Map<String, Object?>? body, String? method, String? token}) async {
@@ -31,9 +29,9 @@ fetchData(String url,
   }
 }
 
-
 uploadImage(filepaths, url, {label = null}) async {
   try {
+    print('**********$filepaths');
     var request = http.MultipartRequest('POST', Uri.parse(url));
     filepaths.forEach((filepath) async => {
           request.files.add(await http.MultipartFile.fromBytes(
@@ -42,11 +40,13 @@ uploadImage(filepaths, url, {label = null}) async {
           // request.files
           //     .add(await http.MultipartFile.fromPath('images', filepath))
         });
-    request.fields['label'] = label;
+    if (label != null) {
+      request.fields['label'] = label;
+    }
     var res = await request.send();
     var body = jsonDecode(await res.stream.bytesToString());
 
-    // print(body);
+    print(body);
     return body['data'];
   } catch (error) {
     print(error);
