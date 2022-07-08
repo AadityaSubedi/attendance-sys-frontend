@@ -1,14 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 
+
 class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({
     Key? key,
   }) : super(key: key);
   static const routeName = "/attendance";
 
-  // required this.classname,
-  // required this.subjectname,
+  // required this.classname
+  // required this.subjetname,
   // required this.date,
   // required this.attendance
   @override
